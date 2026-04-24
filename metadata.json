@@ -1,0 +1,6 @@
+{
+  "name": "WellnessConnect",
+  "description": "A wellness platform connecting clients with certified trainers, instructors, and nutritionists.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": []
+}
