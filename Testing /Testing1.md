@@ -62,7 +62,11 @@ The assessment team is the trust layer on both sides. That's the product's core 
 | A1 | **Test Assessor** | `9600000001` | **Use this one** — messaging routes correctly |
 | A2 | **Asha Assessor** | `9600000011` | Works but client messages don't route to her — avoid for messaging tests |
 
-> **For NEW signups you create during testing**, use unused numbers like **9100000050+** (clients), **9200000050+** (trainers) so you don't collide with the accounts above.
+> **For NEW signups you create during testing:**
+> - Clients: **9100000060, 9100000061, 9100000062** (verified unused as of 30 May 2026)
+> - Trainers: **9200000060, 9200000061, 9200000062** (verified unused as of 30 May 2026)
+> - **Avoid** 9100000050 (taken), 9200000050–9200000055 (orphaned from earlier tests)
+> - If you need more numbers, ping Claude — it can check the live DB for fresh available numbers.
 
 ---
 
@@ -74,13 +78,14 @@ The assessment team is the trust layer on both sides. That's the product's core 
 
 **Business context:** The front door. A new client must be reviewed before they get full access. If the gate leaks, that's a serious failure — it's the product's core promise.
 
-**Accounts:** new client `9100000050` + Test Assessor `9600000001`
+**Accounts:** new client `9100000060` + Test Assessor `9600000001`
 
-1. ☐ Incognito → sign up as new client (`9100000050`) → OTP `123456`
+1. ☐ Incognito → sign up as new client (`9100000060`) → OTP `123456`
 2. ☐ Select **Client** role
 3. ☐ Fill the health profile (age, goals, any conditions)
 4. ☐ **EXPECT:** land on "assessment pending" screen — NOT the full app
-5. ☐ Confirm there's a "Check status" button and you cannot reach the dashboard
+   > 🐛 **Known issue found 30 May (not yet fixed):** the dashboard may flash for 1–2 seconds before bouncing to the pending screen. The client should never see the dashboard, even briefly. Report this if you reproduce it — see "Issues found during this test pass" at the bottom.
+5. ☐ Confirm there's a "Check status" button and you cannot reach the dashboard (after the flash settles)
 6. ☐ Log in as **Test Assessor** in a separate incognito window
 7. ☐ Go to client queue → find the new client → open assessment form
 8. ☐ Complete the 8-section questionnaire → **Clear for Training**
@@ -95,9 +100,9 @@ The assessment team is the trust layer on both sides. That's the product's core 
 
 **Business context:** Mirror of Test 1. An unapproved trainer must never appear to clients.
 
-**Accounts:** new trainer `9200000050` + Test Assessor `9600000001`
+**Accounts:** new trainer `9200000060` + Test Assessor `9600000001`
 
-1. ☐ Incognito → sign up as new trainer (`9200000050`) → OTP `123456`
+1. ☐ Incognito → sign up as new trainer (`9200000060`) → OTP `123456`
 2. ☐ Select **Trainer** role
 3. ☐ Complete onboarding — upload a real profile photo, certification, specialisations, languages, session types
 4. ☐ Submit final step
@@ -540,6 +545,19 @@ TEST 17.0 — Avg Readiness = 62 ✅, Adherence = 33% (after TEST 11) ✅, Energ
 3. **Asha Assessor doesn't receive routed messages** — use Test Assessor instead.
 4. **Weight Trend is intentionally absent** from client Progress screen — passive tracking deferred to post-MVP.
 5. **6 legacy `workout_logs` rows have `adherence_score = null`** — pre-P2.1 test data. Harmless, will be cleaned before production.
+
+---
+
+## Issues found during this test pass (newly discovered, not pre-existing)
+
+Log new bugs here as you find them so they don't get lost:
+
+| # | Test | Description | Severity |
+|---|------|-------------|----------|
+| 1 | TEST 1 (Step 4) | Dashboard renders for 1–2 seconds before bouncing to "Your account is under review" screen. Unauthorised client can briefly see dashboard skeleton during the gap between profile creation and the clearance check. | Medium — security/UX; auto-corrects but exposes content that shouldn't be visible. |
+| | | | |
+
+(Add new rows as testing continues.)
 
 ---
 
