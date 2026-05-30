@@ -238,9 +238,9 @@ Currently expected: toast says "**6**" (4 clients successfully populated, plus 2
 
 | Field | Expected | Actual |
 |-------|----------|--------|
-| Readiness score shown | ~80–100 | ___ |
-| Colour band | Green | ___ |
-| Risk alert appeared | No | ___ |
+| Readiness score shown | ~80–100 | 90 |
+| Colour band | Green | Green |
+| Risk alert appeared | No | No |
 
 ✋ **PAUSE — reply with the score.** I'll query `daily_metrics`.
 
