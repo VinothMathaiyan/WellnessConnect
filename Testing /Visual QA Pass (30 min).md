@@ -23,19 +23,19 @@ Don't try to fix anything during the walkthrough. Just observe and note. We'll t
 **Login:** Test Assessor — `9600000001` / OTP `123456`
  
 ### A1 — Dashboard (`/assessment/dashboard`)
-- ☐ Top of screen: gradient hero banner (teal → purple)
-- ☐ Banner text: "Good morning, Test 👋" or similar greeting
-- ☐ Sub-text: "Assessment Command Center"
-- ☐ Top-right avatar shows **"T"** (NOT "TA")
-- ☐ Below hero: stat cards (escalations, clients, trainer approvals, reviews)
+- X Top of screen: gradient hero banner (teal → purple)
+- X Banner text: "Good morning, Test 👋" or similar greeting
+- X Sub-text: "Assessment Command Center"
+- X Top-right avatar shows **"T"** (NOT "TA")
+- X Below hero: stat cards (escalations, clients, trainer approvals, reviews)
 ### A2 — Sub-screens — same header pattern everywhere
 Visit each from the bottom nav and confirm:
 | Screen | White bg? | Back arrow? | Title clear? | Avatar (T) top-right? |
 |---|---|---|---|---|
-| Clients (Client Queue) | ☐ | ☐ | "Client Queue" | ☐ |
-| Escalations | ☐ | ☐ | "Escalations" | ☐ |
-| Messages | ☐ | ☐ | "Messages" | ☐ |
-| Alerts (Notifications) | ☐ | ☐ | ✅ or 🟡 (this was deferred) | ☐ |
+| Clients (Client Queue) | ✅ | ✅ | "Client Queue" | ✅ |
+| Escalations | ✅ | ✅ | "Escalations" | ✅ |
+| Messages | ✅ | ✅ | "Messages" | ✅ |
+| Alerts (Notifications) | ✅ | ✅ | ✅ or 🟡 (this was deferred) - It worked | ✅ |
  
 ### A3 — Avatar consistency check
 - ☐ Click avatar from dashboard → opens menu with "Edit Profile" and "Sign out"
