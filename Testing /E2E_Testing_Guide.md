@@ -181,12 +181,12 @@ Admin portal (pre-register assessors): app URL + `/admin` → `admin@wellnesscon
 
 **Account:** Alex Johnson `9100000001` (Client, no assessment)
 
-1. ☐ Log in as Alex Johnson
-2. ☐ Try to reach **Trainers → Discover**
+1. ✅ Log in as Alex Johnson
+2. ✅ Try to reach **Trainers → Discover**
 3. ☐ **EXPECT:** either:
-   - Yellow banner: "Complete your assessment to get personalised trainer recommendations"
+   - ✅ Yellow banner: "Complete your assessment to get personalised trainer recommendations"
    - OR redirect to assessment-pending screen
-4. ☐ **NOT acceptable:** Recommendations visible for an uncleared client
+4. ☐ **NOT acceptable:** Recommendations visible for an uncleared client - recommendation not visible
 
 **Verifies:** H2 trainer clearance filter is in place.
 
@@ -196,12 +196,12 @@ Admin portal (pre-register assessors): app URL + `/admin` → `admin@wellnesscon
 
 **Account:** Test Assessor `9600000001` (Assessor)
 
-1. ☐ Log in as Test Assessor → land on Assessment Dashboard
-2. ☐ Scroll to bottom → **EXPECT:** `[Dev] Backfill Recommendations` button visible
-3. ☐ Click it
-4. ☐ **EXPECT:** "Running…" state, then green toast: "Backfilled N clients"
+1. ✅ Log in as Test Assessor → land on Assessment Dashboard
+2. ✅ Scroll to bottom → **EXPECT:** `[Dev] Backfill Recommendations` button visible
+3. ✅ Click it
+4. ✅ **EXPECT:** "Running…" state, then green toast: "Backfilled N clients" - Backfill with 2 Clients
 
-Currently expected: toast says "**6**" (4 clients successfully populated, plus 2 attempted-but-skipped due to incomplete profiles — see flagged issues below).
+Currently expected: toast says "**6**" (4 clients successfully populated, plus 2 attempted-but-skipped due to incomplete profiles — see flagged issues below). - Says Backfill with 2 Clients
 
 ✋ **PAUSE — reply with the toast count.** I'll verify the DB shows recommendations for the populated clients.
 
@@ -213,10 +213,10 @@ Currently expected: toast says "**6**" (4 clients successfully populated, plus 2
 
 **Account:** Priya Sharma `9100000012` (Client)
 
-1. ☐ Log in as Priya Sharma
-2. ☐ Trainers → Discover
-3. ☐ **CURRENTLY EXPECTED:** Yellow banner OR empty Recommended section (she has 0 recs despite full profile)
-4. ☐ Note what you see
+1. ✅ Log in as Priya Sharma
+2. ✅ Trainers → Discover
+3. ✅ **CURRENTLY EXPECTED:** Yellow banner OR empty Recommended section (she has 0 recs despite full profile)
+4. ✅ Note what you see
 
 **Verifies:** The known gap. When this is fixed in a future iteration, Priya should show recommendations like any other cleared client.
 
