@@ -125,7 +125,9 @@ B — All ✅ except Client Detail has risk-dot (expected).
 C — All ✅. No gradient on Client home — calm look working.
 D — Consistent. Same component pattern across apps.
  
-Issues found: [list anything you noted]
+Issues found: [[Notification i see the difference between Client and Trainer]
+ [Notification also have a difference. Assuming this is okay. Your suggestion?]
+Added the checkbox with my comment]
 ```
  
 ---
