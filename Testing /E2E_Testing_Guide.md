@@ -231,10 +231,10 @@ Currently expected: toast says "**6**" (4 clients successfully populated, plus 2
 **Account:** Michael Torres `9100000003` (Client, clean slate)
 
 ### 9.1 — High score baseline
-1. ☐ Log in as Michael Torres
-2. ☐ Open **Daily Check-in**, enter:
+1. ✅ Log in as Michael Torres
+2. ✅ Open **Daily Check-in**, enter:
    - Sleep: **8 hours** · Mood: **5/5** · Energy: **5/5** · Water: **8 glasses** · Pain: **0**
-3. ☐ Submit
+3. ✅ Submit
 
 | Field | Expected | Actual |
 |-------|----------|--------|
