@@ -108,9 +108,9 @@ On each, navigate to a sub-screen. [Notification also have a difference. Assumin
 - ✅ Trainer Dashboard hero (teal→green) and Assessor Dashboard hero (teal→purple) feel like **the same component**, just with different gradient colors
 - ✅ Client Home has **no hero** — intentional difference, not a bug
 ### D3 — The big test: same user, different screens
-- ☐ Stay logged in as one user. Visit 5 different screens (mix of dashboards and sub-screens).
-- ☐ The avatar's **letter** is the same on every screen (first letter of first name).
-- ☐ The avatar's **visual style** is the same (size, shape, border).
+- ✅ Stay logged in as one user. Visit 5 different screens (mix of dashboards and sub-screens).
+- ✅ The avatar's **letter** is the same on every screen (first letter of first name).
+- ✅ The avatar's **visual style** is the same (size, shape, border).
 If both of those hold, the consistency goal is met.
  
 ---
