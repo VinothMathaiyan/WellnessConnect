@@ -1,577 +1,565 @@
-# WellnessConnect — E2E Testing Guide (Updated May 30, 2026)
+# WellnessConnect — E2E Testing Guide v3 (May 30 2026)
 
-*For the QA pass. This doc explains both **what to test** and **why it matters**, so you understand the product while you test it. Work through it top to bottom.*
+**Dev URL:** `https://wellness-connect-git-dev-vinothm13579-7150s-projects.vercel.app`
+**Always test in incognito + hard refresh** (Ctrl+Shift+R) on first load.
 
-> **Dev URL:** `https://wellness-connect-git-dev-vinothm13579-7150s-projects.vercel.app`
-> **Deployment:** commit `bb2b8dd` — "Update recent changes" — built 30 May 2026, includes all changes through T15.
-> **Always test in a fresh incognito window** (avoids stale cached versions).
+This is the updated testing guide that covers everything shipped this week. It supersedes the earlier Testing1.md.
 
 ---
 
-## What is WellnessConnect? (read this first — 2 min)
+## What is WellnessConnect? (2-min orientation)
 
-WellnessConnect connects **clients** with **trainers**, with an **assessment team** as the quality gate.
+A platform that connects **clients** with **trainers**, with an **assessment team** as the quality gate.
 
 The flow:
-1. A **client** signs up and fills a health profile.
-2. The **assessment team** reviews them — checks health risks, fitness level — and either clears them or flags conditions. A client can't access the full app until cleared.
-3. Once cleared, a **recommendation engine** matches the client to suitable trainers.
-4. A **trainer** must also be approved by the assessment team before they can take clients.
-5. Cleared client + approved trainer connect — the trainer builds programs, schedules sessions, monitors check-ins and risk.
+1. A **client** signs up and fills a health profile
+2. The **assessment team** reviews them and either clears them (cleared/conditional) or holds them
+3. Once cleared, the **recommendation engine** matches them to suitable trainers
+4. A **trainer** must also be approved by the assessment team
+5. Cleared client + approved trainer connect — sessions, check-ins, risk monitoring
 
-The assessment team is the trust layer on both sides. That's the product's core differentiator.
-
----
-
-## How to log in (all roles)
-
-- **Dev URL:** `https://wellness-connect-git-dev-vinothm13579-7150s-projects.vercel.app`
-- **OTP:** `123456` for any phone number (dev bypass — no real SMS)
-- **Admin portal** (pre-registering assessors): app URL + `/admin` → `admin@wellnessconnect.in` / `WellnessAdmin@2026`
-
-> ⚠️ **Do not modify data directly in Supabase.** If an account ends up in a weird state, note it and report — don't fix it directly.
+The assessment team is the trust layer. That's the product's core differentiator.
 
 ---
 
-## Test accounts
+## Test accounts (live DB — verified May 30, 2026)
 
 ### Clients
 
 | # | Name | Phone | Assessment | Trainer link | Existing data | Use for |
 |---|------|-------|------------|--------------|---------------|---------|
-| C1 | **Test Client** | `9300000099` | ✅ cleared | active | 4 check-ins, avg readiness 65 | General client testing |
-| C2 | **Arun Kumar** | `9100000011` | ✅ cleared | active | 3 check-ins, avg readiness 62 | Readiness/adherence testing |
-| C3 | **TestClient One** | `9200000001` | ✅ cleared | active | 2 check-ins | General client testing |
-| C4 | **Priya Sharma** | `9100000012` | ✅ cleared | active | 1 check-in + meal logs | Meal log testing |
-| C5 | **ClientVinothAsses** | `9800000001` | ✅ cleared | none | 0 check-ins | Trainer discovery/matching |
-| C6 | **Michael Torres** | `9100000003` | ✅ cleared | active | 0 check-ins | Clean slate — readiness formula discovery |
-| C7 | **Alex Johnson** | `9100000001` | ❌ **none** | none | 0 data | Edge case — clearance filter |
+| C1 | **Test Client** | `9300000099` | ✅ cleared | active | 5 check-ins, recs present | General client testing |
+| C2 | **Arun Kumar** | `9100000011` | ✅ cleared | active | 3 check-ins, recs present | Readiness/adherence testing |
+| C3 | **TestClient One** | `9200000001` | ✅ cleared | active | 2 check-ins, recs present | General testing |
+| C4 | **Priya Sharma** | `9100000012` | ✅ cleared | active | 1 check-in + meal logs, 0 recs ⚠️ | Meal log testing; recommendation gap case |
+| C5 | **ClientVinothAsses** | `9800000001` | ✅ cleared | none | 0 check-ins, recs present | Trainer discovery |
+| C6 | **Michael Torres** | `9100000003` | 🟡 conditional | active | 0 check-ins, no client_profiles row | Clean slate for new check-ins |
+| C7 | **Alex Johnson** | `9100000001` | ❌ none | none | 0 data | Adversarial — clearance filter |
+| C8 | **VClient** | new | ❌ none | — | — | Test signup flow (replace number) |
+| C9 | **VClientOne** | new | 🟡 conditional | — | 0 recs ⚠️ | Recommendation gap case |
 
 ### Trainers
 
 | # | Name | Phone | State | Use for |
 |---|------|-------|-------|---------|
-| T1 | **Vinoth Trainer** | `9200000011` | Approved, active clients | Primary trainer — most tests |
-| T2 | **VinothTest** | `9200000002` | Approved, active clients | Secondary trainer |
-| T3 | **Nalinitesta** | `9000000103` | Approved, no clients | Fresh trainer testing |
+| T1 | **Vinoth Trainer** | `9200000011` | Approved, 2 active clients | Primary — most tests |
+| T2 | **VinothTest** | `9200000002` | Approved | Secondary trainer |
+| T3 | **Nalinitesta** | `9000000103` | Approved | Fresh trainer |
+| T4 | **VTrainerOne** | new | — | Trainer signup/approval tests |
 
 ### Assessors
 
 | # | Name | Phone | Notes |
 |---|------|-------|-------|
 | A1 | **Test Assessor** | `9600000001` | **Use this one** — messaging routes correctly |
-| A2 | **Asha Assessor** | `9600000011` | Works but client messages don't route to her — avoid for messaging tests |
+| A2 | **Asha Assessor** | `9600000011` | Avoid for messaging tests (known routing issue) |
 
-> **For NEW signups you create during testing:**
-> - Clients: **9100000060, 9100000061, 9100000062** (verified unused as of 30 May 2026)
-> - Trainers: **9200000060, 9200000061, 9200000062** (verified unused as of 30 May 2026)
-> - **Avoid** 9100000050 (taken), 9200000050–9200000055 (orphaned from earlier tests)
-> - If you need more numbers, ping Claude — it can check the live DB for fresh available numbers.
+### New signup numbers (verified unused as of May 30)
+- New clients: **9100000060, 9100000061, 9100000062**
+- New trainers: **9200000060, 9200000061, 9200000062**
 
----
-
-# PART 1 — Onboarding Gates (existing tests, re-verified)
+### Login (dev bypass)
+Phone: any 10 digits from above · OTP: `123456`
+Admin portal (pre-register assessors): app URL + `/admin` → `admin@wellnessconnect.in` / `WellnessAdmin@2026`
 
 ---
 
-## TEST 1 — Client journey: signup → assessment gate → app unlock
+# PART 1 — Onboarding Gates
 
-**Business context:** The front door. A new client must be reviewed before they get full access. If the gate leaks, that's a serious failure — it's the product's core promise.
+---
 
-**Accounts:** new client `9100000060` + Test Assessor `9600000001`
+## TEST 1 — Client signup → assessment gate → app unlock
 
-1. ☐ Incognito → sign up as new client (`9100000060`) → OTP `123456`
+**Business context:** Front door. A new client must be reviewed before they get full access. If the gate leaks, that's a serious failure — it's the product's core promise.
+
+**Accounts:** new client `9100000060` (Client) + Test Assessor `9600000001` (Assessor)
+
+1. ☐ Incognito → sign up as new client `9100000060` → OTP `123456`
 2. ☐ Select **Client** role
 3. ☐ Fill the health profile (age, goals, any conditions)
 4. ☐ **EXPECT:** land on "assessment pending" screen — NOT the full app
-   > 🐛 **Known issue found 30 May (not yet fixed):** the dashboard may flash for 1–2 seconds before bouncing to the pending screen. The client should never see the dashboard, even briefly. Report this if you reproduce it — see "Issues found during this test pass" at the bottom.
-5. ☐ Confirm there's a "Check status" button and you cannot reach the dashboard (after the flash settles)
-6. ☐ Log in as **Test Assessor** in a separate incognito window
-7. ☐ Go to client queue → find the new client → open assessment form
-8. ☐ Complete the 8-section questionnaire → **Clear for Training**
-9. ☐ Back as the client → tap "Check status" → **EXPECT:** full app unlocks, lands on dashboard
+   > 🐛 Known: dashboard may flash for 1–2 sec before bouncing. Auto-corrects.
+5. ☐ Confirm: "Check status" button visible, dashboard not reachable
+6. ☐ In separate incognito → log in as Test Assessor `9600000001`
+7. ☐ Open client queue → find the new client → open assessment form
+8. ☐ Complete 8-section questionnaire → **Clear for Training**
+9. ☐ Back as the client → tap "Check status" → **EXPECT:** full app unlocks
 
-✅ **Pass:** client gated until cleared, then unlocks.
-❌ **Fail:** client reaches dashboard before being cleared.
+**Verifies:** Assessment gate, clearance flow.
 
 ---
 
-## TEST 2 — Trainer journey: signup → approval gate → activation
+## TEST 2 — Trainer signup → approval gate → activation
 
-**Business context:** Mirror of Test 1. An unapproved trainer must never appear to clients.
+**Business context:** Mirror of TEST 1. An unapproved trainer must never appear to clients.
 
-**Accounts:** new trainer `9200000060` + Test Assessor `9600000001`
+**Accounts:** new trainer `9200000060` (Trainer) + Test Assessor `9600000001` (Assessor)
 
-1. ☐ Incognito → sign up as new trainer (`9200000060`) → OTP `123456`
+1. ☐ Incognito → sign up as new trainer `9200000060` → OTP `123456`
 2. ☐ Select **Trainer** role
-3. ☐ Complete onboarding — upload a real profile photo, certification, specialisations, languages, session types
+3. ☐ Complete onboarding — photo, certification, specialisations, languages, session types
 4. ☐ Submit final step
 5. ☐ **EXPECT:** "Your application is under review" — NOT the dashboard
 6. ☐ Type `/trainer/dashboard` in URL → **EXPECT:** bounced back to pending screen
-7. ☐ As Test Assessor → Trainer Approval Queue → find the trainer → **Approve**
-8. ☐ Log in as the trainer again → **EXPECT:** lands on trainer dashboard
+7. ☐ Log in as Test Assessor → **Trainer Approval Queue**
+8. ☐ Tap the new trainer → **EXPECT:** see full profile (certifications, languages, coaching styles, focus areas, session types, intensity, max clients, experience, rehab/medical flags, bio, phone, city)
+9. ☐ **Approve**
+10. ☐ Log in as the trainer → **EXPECT:** lands on trainer dashboard
 
-✅ **Pass:** trainer gated until approved, then activates.
+**Verifies:** Trainer approval gate. The Step 8 detail view was newly fixed today.
 
 ---
 
 ## TEST 3 — Trainer rejection & resubmission
 
-**Business context:** Not every trainer passes first time. They need to know why and be able to fix it.
+**Business context:** Not every trainer passes first time. Clear feedback + working resubmit.
 
-1. ☐ As Test Assessor, in the approval queue, click **Reject** with reason field EMPTY
+**Accounts:** trainer from TEST 2 `9200000060` + Test Assessor `9600000001`
+
+1. ☐ As Test Assessor → Trainer Approval Queue → click **Reject** with reason EMPTY
 2. ☐ **EXPECT:** blocked — "Please provide a reason for rejection"
-3. ☐ Reject WITH a reason: "Please re-upload a clearer certification"
-4. ☐ Log in as the trainer → **EXPECT:** pending screen shows the rejection reason in an amber box, with "Update profile and resubmit" button
-5. ☐ Click resubmit → onboarding opens with a banner showing the rejection reason
-6. ☐ Submit → **EXPECT:** back to "under review"
-7. ☐ As Test Assessor → approve → trainer reaches dashboard
+3. ☐ Reject WITH reason: **"Please re-upload a clearer certification"**
+4. ☐ Log in as the trainer → **EXPECT:** "Your previous submission was rejected" banner with the reason
+5. ☐ Tap **"Update profile and resubmit"** → onboarding opens
+6. ☐ **EXPECT:** all fields pre-filled with existing data (no blank form)
+7. ☐ Change something small → submit
+8. ☐ **EXPECT:** back to "under review"
+9. ☐ As Test Assessor → approve → trainer reaches dashboard
 
-✅ **Pass:** empty reason is blocked, reason shown to trainer, resubmit works.
-⚠️ **Known:** resubmit form opens blank — doesn't pre-fill. Already logged.
-
----
-
-## TEST 4 — Client sees only approved trainers
-
-**Business context:** A client browsing trainers must only ever see approved ones.
-
-**Account:** Arun Kumar `9100000011`
-
-1. ☐ Log in as Arun → go to **Trainers** tab → **Discover**
-2. ☐ **EXPECT:** only approved trainers (Vinoth Trainer, VinothTest, Nalinitesta) appear
-3. ☐ Check **My Trainer** tab → Arun's linked trainer appears
-4. ☐ Check **Recommended** section if visible
-
-✅ **Pass:** only approved trainers visible.
+**Verifies:** Rejection banner, resubmit pre-population (newly fixed today).
 
 ---
 
-## TEST 5 — Profile menu (every role)
+# PART 2 — Recommendation Engine (NEW — added May 30)
 
-1. ☐ As **Vinoth Trainer** → tap avatar → **Edit Profile** present → opens trainer profile editor
-2. ☐ As **Test Client** → tap avatar → **Edit Profile** present → opens client profile editor
-3. ☐ As **Test Assessor** → tap avatar → NO "Edit Profile" (correct for assessors), **Sign Out** works
-4. ☐ As Vinoth, go to My Clients sub-screen → tap avatar → same menu as dashboard
-
-✅ **Pass:** Edit Profile for client + trainer, hidden for assessor, consistent everywhere.
-⚠️ **Known:** Edit Profile opens a blank form — doesn't pre-fill. Already logged.
+> **Read the "How the recommendation engine works" section above first.** These tests verify the engine produces sensible matches.
 
 ---
 
-## TEST 6 — Core screens load (smoke test, all roles)
-
-**Trainer (Vinoth Trainer `9200000011`):**
-- ☐ Dashboard ☐ My Clients ☐ Client Detail ☐ Program Builder ☐ Schedule Session ☐ Risk Monitor ☐ Notifications ☐ Messages ☐ **Client Progress View** (tap "View Full Progress" on any client)
-
-**Client (Test Client `9300000099`):**
-- ☐ Dashboard ☐ Daily Check-In ☐ Nutrition Log ☐ Progress ☐ Weekly Report ☐ Trainers ☐ Alerts ☐ Session Detail
-
-**Assessor (Test Assessor `9600000001`):**
-- ☐ Dashboard ☐ Client Queue ☐ Trainer Approval Queue ☐ Escalations ☐ Messages ☐ Monthly Review ☐ Notifications
-
-✅ **Pass:** every screen renders without crash or error.
-
----
-
-## TEST 7 — Messaging (client ↔ assessment team)
-
-**Accounts:** Test Client `9300000099` + Test Assessor `9600000001`
-
-1. ☐ As Test Client → Alerts → "Contact Assessment Team" → type a message → send
-2. ☐ As Test Assessor → Messages tab → **EXPECT:** client's message appears
-3. ☐ Reply as the assessor
-4. ☐ As the client → **EXPECT:** reply appears
-
-✅ **Pass:** messages flow both directions.
-> Use **Test Assessor (`9600000001`)**, not Asha Assessor.
-
----
-
-# PART 2 — Supabase Wiring & Data (new tests, added May 30 2026)
-
-*These tests cover all the wiring built in Phases 3C, 4, P3.1, P4, pre-T15 cleanup, and T15.*
-
-> **How these work:** After each ✋ PAUSE, paste your result back into the Claude chat (e.g. "TEST 8, Step 2.1 — score = 87"). Claude will query the live Supabase DB and reply with ✅ confirmed / ❌ mismatch / 🟡 note within seconds.
-
----
-
-## TEST 8 — Auth guard on hard refresh
-
-**What's being tested:** `isAuthLoading` guard in App.tsx prevents null-userId on F5.
-
-1. ☐ Log in as any user
-2. ☐ Hit **F5** (hard refresh)
-3. ☐ **EXPECT:** brief centered loading spinner → then same screen loads correctly
-4. ☐ **NOT acceptable:** flash of login page, blank screen, or "userId is null" error
-
-✅ **Pass:** spinner shows briefly, then screen loads correctly.
-
----
-
-## TEST 9 — Daily Check-in & Readiness Score
-
-**What's being tested:** `submitDailyCheckin` upserts to `daily_metrics`, readiness score is calculated and displayed correctly.
-
-**Account:** Michael Torres `9100000003` (C6 — clean slate, zero existing data)
-
-### 9.1 — High score baseline
-1. ☐ Log in as Michael Torres
-2. ☐ Open **Daily Check-in**
-3. ☐ Enter:
-   - Sleep: **8 hours**
-   - Mood: **5/5**
-   - Energy: **5/5**
-   - Water: **8 glasses**
-   - Pain: **0**
-4. ☐ Submit
-
-Note the **readiness score** shown = ______ /100 and its **colour** (green/amber/red).
-
-✋ **PAUSE — reply: "TEST 9.1 done, score = XX, colour = green/amber/red"**
-*Claude will query `daily_metrics` to confirm what was saved and verify the score.*
-
-### 9.2 — Low score (risk trigger)
-5. ☐ Still as Michael Torres, tap **Daily Check-in** again (same day)
-6. ☐ Enter:
-   - Sleep: **3 hours**
-   - Mood: **1/5**
-   - Energy: **1/5**
-   - Water: **1 glass**
-   - Pain: **9**
-7. ☐ Submit
-
-Note: new **readiness score** = ______ /100, any **risk alert or banner** shown = yes/no
-
-✋ **PAUSE — reply: "TEST 9.2 done, score = XX, alert = yes/no"**
-*Claude will verify: (a) still only 1 row in DB (upsert worked, not duplicate), (b) whether a `risk_alerts` row was created, (c) score formula.*
-
-### 9.3 — Medium score
-8. ☐ Submit check-in again:
-   - Sleep: **6 hours**
-   - Mood: **3/5**
-   - Energy: **3/5**
-   - Water: **5 glasses**
-   - Pain: **3**
-
-Note score = ______ /100
-
-✋ **PAUSE — reply: "TEST 9.3 done, score = XX"**
-*Claude will confirm still 1 row (3 upserts = 1 row), and whether earlier alert auto-cleared.*
-
-### 9.4 — Pain score not hardcoded
-9. ☐ Navigate to **Progress** screen
-10. ☐ **EXPECT:** Pain shows `3` (or the value you entered) — NOT `0` and NOT `—`
-
-✋ **PAUSE — reply: "TEST 9.4 pain shows = XX"**
-
----
-
-## TEST 10 — Meal Log Upsert (no duplicates)
-
-**What's being tested:** `logMeal` upserts on `(user_id, log_date, meal_type)` — same meal type same day updates, not duplicates.
-
-**Account:** Priya Sharma `9100000012` (C4 — has existing meal data)
-
-### 10.1 — Add breakfast
-1. ☐ Log in as Priya Sharma
-2. ☐ Open **Nutrition Log** → **Add Meal**
-3. ☐ Type: **Breakfast**, Name: **Test Breakfast A**, Calories: **300**
-4. ☐ Save
-
-✋ **PAUSE — reply: "TEST 10.1 done"**
-*Claude will confirm exactly 1 breakfast row for Priya today.*
-
-### 10.2 — Re-add breakfast (should update, not duplicate)
-5. ☐ Add **Breakfast** again: Name: **Test Breakfast B**, Calories: **500**
-6. ☐ Save
-7. ☐ **EXPECT:** the nutrition log shows **Test Breakfast B / 500 cal** (not two breakfasts)
-
-✋ **PAUSE — reply: "TEST 10.2 done, shows = [what you see]"**
-*Claude will confirm: 1 breakfast row in DB, updated to B/500.*
-
-### 10.3 — Different meal type should add (not replace)
-8. ☐ Add **Lunch**: Name: **Lunch C**, Calories: **600**
-9. ☐ **EXPECT:** now 2 meal entries today (Breakfast B + Lunch C)
-
-✋ **PAUSE — reply: "TEST 10.3 done"**
-
----
-
-## TEST 11 — Session Logging & Adherence
-
-**What's being tested:** `logWorkoutSession` writes correct `adherence_score` (effort × 20) and `session_status`. No `[No-show]` prefix in notes.
-
-**Account:** Vinoth Trainer `9200000011` logging sessions for Arun Kumar
-
-### 11.1 — Completed session
-1. ☐ Log in as Vinoth Trainer
-2. ☐ My Clients → **Arun Kumar** → **Log Session**
-3. ☐ Date: today, Status: **Completed**, Effort: **4/5**
-4. ☐ Pick 2 exercises. Notes: leave blank. Save.
-5. ☐ **EXPECT:** success toast → returns to client detail
-
-✋ **PAUSE — reply: "TEST 11.1 done"**
-*Claude will verify: `adherence_score = 80` (not 4), `session_status = 'completed'`, `exercise_sets` rows created, `client_notes` is null.*
-
-### 11.2 — No-show session
-6. ☐ Log another session for **Arun Kumar**
-7. ☐ Status: **No-show**, Notes: **"Did not show up, called twice"**
-8. ☐ Save
-
-✋ **PAUSE — reply: "TEST 11.2 done"**
-*Claude will verify: `session_status = 'no_show'`, notes contain the text WITHOUT a `[No-show]` prefix, no `exercise_sets` inserted.*
-
-### 11.3 — Cancelled by client
-9. ☐ Log another session: Status: **Cancelled** (client-cancelled), Notes: **"Cancelled 2hr before"**
-
-✋ **PAUSE — reply: "TEST 11.3 done"**
-*Claude will verify: `session_status = 'cancelled_client'`.*
-
----
-
-## TEST 12 — Risk Monitor & Escalation Routing
-
-**What's being tested:** Risk alerts scoped to trainer's clients. Escalation routes to the assessor who cleared the client (not just any assessor).
-
-**Account:** Vinoth Trainer `9200000011`
-
-### 12.1 — Risk Monitor shows correct clients
-1. ☐ As Vinoth Trainer, open **Risk** tab (Risk Monitor)
-2. ☐ Note which clients appear and their severity
-3. ☐ **EXPECT:** only clients linked to Vinoth appear — no unrelated clients
-
-✋ **PAUSE — reply: "TEST 12.1 — clients shown: [names]"**
-*Claude will cross-check against `trainer_client_links` for Vinoth.*
-
-### 12.2 — Mark alert as read
-4. ☐ Tap any alert in the Risk Monitor list
-5. ☐ On the detail screen, tap **Acknowledge / Mark Read**
-6. ☐ **EXPECT:** badge or "Acknowledged" label appears; alert moves to read state in list
-
-✋ **PAUSE — reply: "TEST 12.2 done"**
-*Claude will confirm `risk_alerts.is_read = true` for that row.*
-
-### 12.3 — Escalate to Assessment Team (H1 routing fix)
-7. ☐ On a Risk Alert detail screen, tap **"Escalate to Assessment Team"**
-8. ☐ Confirm any prompt
-9. ☐ **EXPECT:** success toast
-
-✋ **PAUSE — reply: "TEST 12.3 — escalated for client = [name]"**
-*Claude will verify: (a) `escalations` row has `assessor_id` SET — not null, (b) assessor_id matches the one who cleared this client in `assessments`, (c) a `notifications` row of type `risk_escalation` was sent to that same assessor.*
-
-### 12.4 — Assessor receives the escalation
-10. ☐ Log in as **Test Assessor `9600000001`**
-11. ☐ Open **Notifications** tab → **EXPECT:** new `risk_escalation` notification at top
-12. ☐ Open **Escalations** tab → new open escalation visible, assigned to me
-
-✅ **Pass:** escalation routed to correct assessor, not random one.
-
----
-
-## TEST 13 — Trainer Clearance Filter (H2)
-
-**What's being tested:** Alex Johnson (no assessment) is invisible to all trainers. Active client count only counts cleared clients.
-
-**Account:** Vinoth Trainer `9200000011`
-
-### 13.1 — Alex Johnson not in client list
-1. ☐ As Vinoth Trainer → **My Clients** tab
-2. ☐ **EXPECT:** Alex Johnson does NOT appear in any list (active or pending)
-
-✋ **PAUSE — reply: "TEST 13.1 — Alex visible? yes/no"**
-
-### 13.2 — Active client count matches filtered list
-3. ☐ Note the client count shown on the Trainer Dashboard
-4. ☐ Compare to the number of clients in My Clients list
-
-✋ **PAUSE — reply: "TEST 13.2 — dashboard count = X, list count = X"**
-*Claude will run the SQL and verify both match the cleared-clients-only filter.*
-
-### 13.3 — Assessment notes in Accept-Decline
-5. ☐ Find any **pending client request** in the trainer app (or create one in TEST 1 above)
-6. ☐ Open the Accept/Decline screen
-7. ☐ **EXPECT:** above the buttons, the client's assessment summary is visible — clearance badge, fitness level, health notes
-8. ☐ If no assessment exists → shows "No assessment on file" (not a crash)
-
-✅ **Pass:** assessment context visible before trainer decides.
-
----
-
-## TEST 14 — Weekly Reflection Persistence (P3.1)
-
-**What's being tested:** Weekly reflection saves to `weekly_reflections` table, reloads when you come back.
-
-**Account:** Test Client `9300000099`
-
-1. ☐ Log in as Test Client → open **Weekly Report**
-2. ☐ Note the header shows "Week N · Mon DD — Sun DD" with today in range
-3. ☐ In the reflection textarea, type: **"IST timezone test reflection — [your name]"**
-4. ☐ Save
-5. ☐ Navigate away (go to Dashboard)
-6. ☐ Come back to **Weekly Report**
-7. ☐ **EXPECT:** the reflection text is pre-populated — not blank
-
-✋ **PAUSE — reply: "TEST 14 done — reflection reloaded? yes/no"**
-*Claude will verify: `weekly_reflections` row exists with correct `user_id`, `week_start` = Monday of this IST week, `note` = your text.*
-
----
-
-## TEST 15 — Weight Trend removed (P3.1)
-
-**What's being tested:** Weight Trend chart was removed from the client Progress screen (passive tracking deferred to post-MVP).
-
-**Account:** any client
-
-1. ☐ Log in as Test Client → open **Progress** screen
-2. ☐ Scroll through the entire screen
-3. ☐ **EXPECT:** NO weight chart, NO "kg" trend, NO "Weight Trend" heading anywhere
-4. ☐ Readiness, Adherence, and other sections still visible and working
-
-✅ **Pass:** no weight section anywhere on the screen.
-
----
-
-## TEST 16 — IST Date Handling (M1)
-
-**What's being tested:** All dates computed in IST (Asia/Kolkata), not UTC. Especially matters for users logging late at night.
-
-**Account:** any client
-
-1. ☐ Note the **current IST date and time** (e.g. "May 30, 2026, 11:45 PM IST")
-2. ☐ Submit a Daily Check-in
-3. ☐ Open **Weekly Report** → confirm today's date falls within the "Mon–Sun" week range shown
-
-✋ **PAUSE — reply: "TEST 16 — submitted at [time] IST, week header shows [Mon date – Sun date]"**
-*Claude will query `daily_metrics.log_date` for your row and confirm it matches the IST date, not the UTC date.*
-
----
-
-## TEST 17 — T15 Client Progress View (new screen)
-
-**What's being tested:** The T15 trainer screen showing a client's full progress overview — all 5 sections wired to real data.
-
-**Account:** Vinoth Trainer `9200000011` viewing Arun Kumar
-
-### 17.0 — Quick spot check (do this first, 30 seconds)
-1. ☐ Log in as Vinoth Trainer
-2. ☐ Navigate to: `https://wellness-connect-git-dev-vinothm13579-7150s-projects.vercel.app/trainer/client-progress/aaf9e9b9-6fae-4540-a4a8-2e1416fd5749`
-3. ☐ Check these values (verified from DB):
+## TEST 4 — Recommended section appears for cleared clients
+
+**Account:** Arun Kumar `9100000011` (Client)
+
+1. ☐ Log in as Arun Kumar
+2. ☐ Go to **Trainers** tab → **Discover** sub-tab
+3. ☐ **EXPECT:**
+   - Top section: **"Recommended For You"** with 2–5 trainers
+   - Each trainer card shows: name, location, experience, match %, View Profile
+   - Below: **"All Trainers"** with the rest of approved trainers
+   - NO yellow "complete your assessment" banner
 
 | Field | Expected | Actual |
 |-------|----------|--------|
-| Client name | **Arun Kumar** | ______ |
-| Avg Readiness (7D) | **62** | ______ |
-| Adherence | **100%** (pre-TEST 11) or updated after TEST 11 | ______ |
-| Total Check-ins | **3** | ______ |
-| Sleep | **8.3 hrs** | ______ |
-| Energy | **7/10** (DB 3.5 × 2 = 7) | ______ |
-| Mood | **7/10 or 8/10** (DB 3.7 × 2 = 7.4 → rounds to 7) | ______ |
-| Pain | **6.0/10 — lower is better** | ______ |
-| Current Program | **1 active plan visible** | ______ |
+| Recommended section visible | Yes | ☐ |
+| Number of recommended trainers | 2 | ☐ |
+| Top match % | 21% | ☐ |
+| Top recommended trainer | Nalinitesta | ☐ |
+| Second recommended trainer | VinothTest | ☐ |
+| All Trainers section visible below | Yes | ☐ |
 
-✋ **PAUSE — reply: "TEST 17.0 — [fill the Actual column]"**
-*If all match: T15 is wired correctly. If any mismatch: stop and report.*
-
-### 17.1 — Five sections render correctly
-4. ☐ **SUMMARY cards (2×2):** Avg Readiness (7D), Adherence, Total Check-ins, Current Streak — all show values or "—"
-5. ☐ **READINESS TREND (14 days):** bar chart visible, bars color-coded (green/amber/red), legend below
-6. ☐ **METRIC AVERAGES (30 days):** Sleep hrs, Energy /10, Mood /10, Pain /10 with "lower is better"
-7. ☐ **RECENT CHECK-INS:** table with Date, Readiness (color-coded), Done (✓/✗)
-8. ☐ **CURRENT PROGRAM:** program name, "Week N of M", sessions/week, status badge, **Edit Program** button
-
-### 17.2 — Edit Program button
-9. ☐ Tap **Edit Program**
-10. ☐ **EXPECT:** navigates to the Program Builder for Arun Kumar — not a crash, not a blank screen
-
-### 17.3 — View Full Progress link on Client Detail
-11. ☐ From My Clients, tap **Arun Kumar** → opens Client Detail
-12. ☐ **EXPECT:** a "View Full Progress" card or button visible → tapping it opens the T15 screen
-
-### 17.4 — Empty state (no data client)
-13. ☐ Navigate to: `https://wellness-connect-git-dev-vinothm13579-7150s-projects.vercel.app/trainer/client-progress/bec6135c-bcba-4073-a5a4-890369d191f9`
-    *(This is Test Client — has some data but may have empty sections)*
-14. ☐ Try also Michael Torres if he has no sessions logged: `33333333-3333-3333-3333-333333333333`
-15. ☐ **EXPECT:** all 5 sections render gracefully — "—" for missing values, no crashes, no blank page
-
-### 17.5 — Alex Johnson (edge case)
-16. ☐ Navigate to: `https://wellness-connect-git-dev-vinothm13579-7150s-projects.vercel.app/trainer/client-progress/11111111-1111-1111-1111-111111111111`
-17. ☐ **EXPECT:** either graceful empty state OR "not your client" message
-18. ☐ **NOT acceptable:** crash, blank white page, or JavaScript error in console
-
-✋ **PAUSE — reply: "TEST 17.5 — saw: [what you saw]"**
-*Claude will advise on whether the observed behaviour is correct.*
+✋ **PAUSE — reply with values you saw.** I'll verify against `trainer_recommendations` table.
 
 ---
 
-# PART 3 — Backend Evidence (Claude verifies after all tests)
+## TEST 5 — Different clients get different recommendations
 
-After all sections are reported back, Claude will run a full DB sweep and produce an evidence report covering:
+**Verifies:** The engine considers each client individually, not a single global list.
 
-- `daily_metrics` — no duplicates, upsert working, log_date in IST
-- `workout_logs` — `adherence_score` in {20,40,60,80,100} (not raw 1–5), `session_status` correctly mapped
-- `meal_logs` — no duplicates per (user, date, meal_type)
-- `risk_alerts` — correctly scoped to trainer's clients
-- `escalations` — new rows have `assessor_id` set (H1 routing fix working)
-- `notifications` — `risk_escalation` type notifications sent to correct assessor
-- `weekly_reflections` — correct `week_start` (Monday of IST week)
-- Clearance filter — Alex Johnson absent from trainer views
+| Step | Account | What to check |
+|------|---------|--------------|
+| 1 | Log in as **Test Client** `9300000099` | Note the recommended trainers + match scores |
+| 2 | Log out, log in as **ClientVinothAsses** `9800000001` | Note her recommended trainers + match scores |
+| 3 | Log out, log in as **TestClient One** `9200000001` | Note his recommended trainers + match scores |
+
+**EXPECT:** The 3 clients see at least some different rankings (e.g., a trainer who's #1 for one client might be #3 for another). If all 3 show the identical list in identical order, the engine isn't actually personalising. Make a note.
+
+✋ **PAUSE — reply with each client's top 2 trainers and match scores.**
 
 ---
 
-## How to report results
+## TEST 6 — Uncleared client does NOT see recommendations
 
-For each test, use this format:
+**Account:** Alex Johnson `9100000001` (Client, no assessment)
+
+1. ☐ Log in as Alex Johnson
+2. ☐ Try to reach **Trainers → Discover**
+3. ☐ **EXPECT:** either:
+   - Yellow banner: "Complete your assessment to get personalised trainer recommendations"
+   - OR redirect to assessment-pending screen
+4. ☐ **NOT acceptable:** Recommendations visible for an uncleared client
+
+**Verifies:** H2 trainer clearance filter is in place.
+
+---
+
+## TEST 7 — Backfill button regenerates recommendations
+
+**Account:** Test Assessor `9600000001` (Assessor)
+
+1. ☐ Log in as Test Assessor → land on Assessment Dashboard
+2. ☐ Scroll to bottom → **EXPECT:** `[Dev] Backfill Recommendations` button visible
+3. ☐ Click it
+4. ☐ **EXPECT:** "Running…" state, then green toast: "Backfilled N clients"
+
+Currently expected: toast says "**6**" (4 clients successfully populated, plus 2 attempted-but-skipped due to incomplete profiles — see flagged issues below).
+
+✋ **PAUSE — reply with the toast count.** I'll verify the DB shows recommendations for the populated clients.
+
+> 🐛 **Known issue (TEST 7-flag-1):** Toast count is the number of *attempted*, not *successfully populated*. Two clients (Priya Sharma `9100000012` and VClientOne) have complete data but receive 0 recommendations. This is a recommendation-engine tuning issue, not a bug in the button.
+
+---
+
+## TEST 8 — Priya Sharma's recommendations gap (regression check)
+
+**Account:** Priya Sharma `9100000012` (Client)
+
+1. ☐ Log in as Priya Sharma
+2. ☐ Trainers → Discover
+3. ☐ **CURRENTLY EXPECTED:** Yellow banner OR empty Recommended section (she has 0 recs despite full profile)
+4. ☐ Note what you see
+
+**Verifies:** The known gap. When this is fixed in a future iteration, Priya should show recommendations like any other cleared client.
+
+---
+
+# PART 3 — Daily Check-ins & Readiness Score
+
+---
+
+## TEST 9 — Daily check-in saves + readiness score calculation
+
+**Account:** Michael Torres `9100000003` (Client, clean slate)
+
+### 9.1 — High score baseline
+1. ☐ Log in as Michael Torres
+2. ☐ Open **Daily Check-in**, enter:
+   - Sleep: **8 hours** · Mood: **5/5** · Energy: **5/5** · Water: **8 glasses** · Pain: **0**
+3. ☐ Submit
+
+| Field | Expected | Actual |
+|-------|----------|--------|
+| Readiness score shown | ~80–100 | ___ |
+| Colour band | Green | ___ |
+| Risk alert appeared | No | ___ |
+
+✋ **PAUSE — reply with the score.** I'll query `daily_metrics`.
+
+### 9.2 — Low score (risk trigger)
+4. ☐ Same day, submit again (should upsert, not duplicate):
+   - Sleep: **3** · Mood: **1** · Energy: **1** · Water: **1** · Pain: **9**
+
+| Field | Expected | Actual |
+|-------|----------|--------|
+| New readiness score | ~10–25 | ___ |
+| Colour band | Red | ___ |
+| Risk alert created | Yes (auto) | ___ |
+
+✋ **PAUSE — reply with the score.** I'll verify: (a) still 1 row for Michael today, (b) whether `risk_alerts` row was created.
+
+### 9.3 — Medium score
+5. ☐ Submit again:
+   - Sleep: **6** · Mood: **3** · Energy: **3** · Water: **5** · Pain: **3**
+
+✋ **PAUSE.** I'll confirm 1 row total (3 upserts → 1 row).
+
+### 9.4 — Pain score not hardcoded
+6. ☐ Open **Progress** screen
+7. ☐ **EXPECT:** Pain shows the value you entered, NOT 0 and NOT "—"
+
+---
+
+# PART 4 — Workouts & Adherence
+
+---
+
+## TEST 10 — Trainer logs sessions, adherence reflects correctly
+
+**Account:** Vinoth Trainer `9200000011` (Trainer) logging for Arun Kumar (Client)
+
+### 10.1 — Completed session
+1. ☐ Log in as Vinoth Trainer
+2. ☐ My Clients → **Arun Kumar** → Log Session
+3. ☐ Date: today · Status: **Completed** · Effort: **4/5** · 2 exercises · Notes: blank
+4. ☐ Save
+5. ☐ **EXPECT:** success toast → returns to client detail
+
+✋ **PAUSE — reply done.** I'll verify: `adherence_score = 80` (not 4), `session_status = 'completed'`, `exercise_sets` rows created, `client_notes` is null.
+
+### 10.2 — No-show session
+6. ☐ Log another session: Status: **No-show** · Notes: **"Did not show up"**
+7. ☐ Save
+
+✋ **PAUSE.** I'll verify: `session_status = 'no_show'`, notes contain the text WITHOUT a `[No-show]` prefix, no `exercise_sets` inserted.
+
+### 10.3 — Cancelled by client
+8. ☐ Log another: Status: **Cancelled** · Notes: **"Cancelled 2hr before"**
+
+✋ **PAUSE.** I'll verify `session_status = 'cancelled_client'`.
+
+---
+
+# PART 5 — Risk Monitor & Escalation
+
+---
+
+## TEST 11 — Risk Monitor scoping & escalation routing
+
+**Account:** Vinoth Trainer `9200000011` (Trainer)
+
+### 11.1 — Risk Monitor shows correct clients
+1. ☐ Open **Risk** tab
+2. ☐ List clients and severity shown
+
+✋ **PAUSE — reply with the names.** I'll cross-check that only Vinoth's clients appear.
+
+### 11.2 — Acknowledge alert
+3. ☐ Tap any alert → detail screen → tap **Acknowledge**
+
+✋ **PAUSE.** I'll confirm `is_read = true`.
+
+### 11.3 — Escalate to Assessment Team
+4. ☐ On Risk Alert detail → tap **"Escalate to Assessment Team"**
+5. ☐ Confirm
+
+✋ **PAUSE — reply with client name escalated.** I'll verify: (a) `escalations.assessor_id` is set (not null), (b) matches the assessor who cleared that client, (c) notification fired to that assessor.
+
+### 11.4 — Assessor receives
+6. ☐ Log in as **Test Assessor** `9600000001`
+7. ☐ Open Notifications tab → **EXPECT:** new `risk_escalation` notification at top
+8. ☐ Open Escalations tab → assigned to me
+
+---
+
+# PART 6 — Clearance Filter & Cross-app Flows
+
+---
+
+## TEST 12 — Trainer clearance filter (Alex Johnson invisible)
+
+**Account:** Vinoth Trainer `9200000011` (Trainer)
+
+1. ☐ My Clients tab → list all clients
+2. ☐ **EXPECT:** **Alex Johnson** does NOT appear
+3. ☐ Note the active client count on Dashboard
+4. ☐ **EXPECT:** count matches the number of cleared clients visible in the list
+
+✋ **PAUSE — reply with the count.** I'll verify against the cleared-clients-only filter.
+
+---
+
+## TEST 13 — Assessment notes appear in Accept-Decline
+
+**Setup needed:** A pending trainer-client link (TEST 1 above creates one).
+
+**Account:** Vinoth Trainer `9200000011` (Trainer)
+
+1. ☐ Open the pending client request
+2. ☐ **EXPECT:** above accept/decline buttons, see assessment summary:
+   - Clearance badge (cleared/conditional)
+   - Fitness level
+   - Health notes
+3. ☐ If no assessment exists → "No assessment on file" (defense-in-depth)
+
+---
+
+# PART 7 — Nutrition
+
+---
+
+## TEST 14 — Meal log upsert (no duplicates)
+
+**Account:** Priya Sharma `9100000012` (Client)
+
+1. ☐ Open **Nutrition** → Add Meal: **Breakfast** · "Test Breakfast A" · 300 cal · Save
+
+✋ **PAUSE.** I'll confirm exactly 1 breakfast row today.
+
+2. ☐ Add **Breakfast** again: "Test Breakfast B" · 500 cal · Save
+3. ☐ **EXPECT:** the list shows Test Breakfast B (500 cal) — NOT both A and B
+
+✋ **PAUSE.** I'll confirm still 1 row, updated to B/500.
+
+4. ☐ Add **Lunch**: "Lunch C" · 600 cal
+5. ☐ **EXPECT:** 2 rows today (Breakfast B + Lunch C)
+
+---
+
+# PART 8 — Weekly Reflection
+
+---
+
+## TEST 15 — Weekly reflection persists
+
+**Account:** Test Client `9300000099` (Client)
+
+1. ☐ Open **Weekly Report**
+2. ☐ Header shows "Week N · Mon DD — Sun DD" with today in range
+3. ☐ Type reflection: **"IST timezone test"** → Save
+4. ☐ Navigate to Dashboard, then back to Weekly Report
+5. ☐ **EXPECT:** reflection text is pre-populated, not blank
+
+✋ **PAUSE.** I'll verify the row in `weekly_reflections` with correct `week_start` (Monday of IST week).
+
+---
+
+# PART 9 — Client Progress View (Trainer view)
+
+---
+
+## TEST 16 — T15 Client Progress View
+
+**Account:** Vinoth Trainer `9200000011` (Trainer) viewing Arun Kumar (Client)
+
+### 16.0 — Quick spot check (30 sec)
+Navigate to: `/trainer/client-progress/aaf9e9b9-6fae-4540-a4a8-2e1416fd5749`
+
+| Field | Expected | Actual |
+|-------|----------|--------|
+| Client name | Arun Kumar | ___ |
+| Avg Readiness (7D) | 62 (will change with TEST 9) | ___ |
+| Adherence | depends on TEST 10 | ___ |
+| Sleep | 8.3 hrs | ___ |
+| Energy | 7/10 | ___ |
+| Mood | 7 or 8/10 | ___ |
+| Pain | 6.0/10 — lower is better | ___ |
+| Current Program visible | Yes | ___ |
+
+### 16.1 — Five sections render
+- ☐ SUMMARY cards (2×2)
+- ☐ READINESS TREND (14 days) — bar chart, colour-coded
+- ☐ METRIC AVERAGES (30 days) — Sleep, Energy /10, Mood /10, Pain
+- ☐ RECENT CHECK-INS — table with date, readiness, done indicator
+- ☐ CURRENT PROGRAM — program name, week N of M, sessions/week, Edit Program button
+
+### 16.2 — Edit Program navigation
+- ☐ Tap "Edit Program" → opens Program Builder for Arun
+
+### 16.3 — Empty state — Michael Torres
+- ☐ Open `/trainer/client-progress/33333333-3333-3333-3333-333333333333`
+- ☐ **EXPECT:** Sections render with "—" for missing values; no crash
+
+### 16.4 — Alex Johnson edge case
+- ☐ Open `/trainer/client-progress/11111111-1111-1111-1111-111111111111`
+- ☐ **EXPECT:** Graceful empty state OR "not your client" message
+- ☐ **NOT acceptable:** crash, blank page, console error
+
+---
+
+# PART 10 — Visual Consistency
+
+---
+
+## TEST 17 — Avatars and headers (UI consistency)
+
+**Verifies:** Today's UI consistency work.
+
+### Avatar consistency
+1. ☐ As **Vinoth Trainer** `9200000011`, check avatar shows **"V"** (NOT "VT") on every screen
+   > Exception: dashboard may show photo if user has uploaded one — this is intentional
+2. ☐ As **Test Assessor** `9600000001`, check avatar shows **"T"** (NOT "TA") on every screen
+3. ☐ As **Test Client** `9300000099`, check avatar shows **"T"** on every screen
+
+### Header consistency
+| Screen | Expected | Actual |
+|--------|----------|--------|
+| Trainer Dashboard | Gradient hero, back-no-arrow | ___ |
+| Trainer sub-screens (e.g., My Clients) | White bg, back arrow, title left | ___ |
+| Assessor Dashboard | Gradient hero | ___ |
+| Assessor sub-screens | White bg, back arrow, title left | ___ |
+| Client Home | White bg, NO gradient, calm layout | ___ |
+| Client tab destinations (Alerts, Messages, Progress, Trainers) | White bg, NO back arrow (tab destination), title left, avatar top-right | ___ |
+
+> Note: "Tab destinations" do NOT have back arrows — this is intentional. Users got there via tab tap, not drill-down.
+
+---
+
+# PART 11 — Hard refresh & error handling
+
+---
+
+## TEST 18 — Hard refresh doesn't break
+
+**Account:** Any role
+
+1. ☐ Log in
+2. ☐ Hit F5 anywhere in the app
+3. ☐ **EXPECT:** brief spinner → screen reloads correctly
+4. ☐ **NOT acceptable:** flash of login screen, null userId error, blank page
+
+---
+
+# Issues found during this test pass
+
+Add new bugs here as you find them:
+
+| # | Test | Description | Severity | Status |
+|---|------|-------------|----------|--------|
+| 1 | TEST 1 step 4 | Dashboard flashes briefly before bouncing to "under review" | Medium | Open |
+| 2 | TEST 7 | Toast says "Backfilled N" but N counts attempts, not successes | Low | Open |
+| 3 | TEST 8 (Priya, VClientOne) | Cleared clients with complete profiles got 0 recommendations | Medium | Open |
+| | | | | |
+
+---
+
+# What's already known (don't re-report)
+
+1. **Backfill button is dev-only** — intentionally hidden in production
+2. **Weight Trend chart removed** — passive tracking deferred to post-MVP
+3. **Asha Assessor (`9600000011`) message routing** — use Test Assessor instead
+4. **Edit Profile blank in some cases** — known if it appears outside the resubmit path
+5. **`daily_logs` table** — dead schema, will be dropped pre-deploy
+6. **RLS is intentionally disabled** — re-enabled with policies before production
+
+---
+
+# After all testing passes — Production cut-over
+
+Three steps:
+
+## Step 1 — Merge `dev` → `main` on GitHub
+
+1. Go to: `https://github.com/VinothMathaiyan/Wellness-Connect`
+2. Open Pull Request from `dev` → `main`
+3. Review the diff (lots of commits — that's fine; everything tested above)
+4. Merge → Vercel auto-deploys to production within ~2 minutes
+
+## Step 2 — Verify production matches dev
+
+Visit: `https://wellness-connect-sigma.vercel.app` (or your production domain)
+
+Run a 5-minute smoke test from this doc:
+- TEST 1.1 — sign-up flow loads
+- TEST 4 — Arun Kumar sees Recommended section
+- TEST 9.1 — daily check-in works
+- TEST 17 — visual consistency (avatars + headers)
+
+If smoke test passes on production, you're done.
+
+## Step 3 — Manual housekeeping (pre-launch only)
+
+These items should NOT go to production:
+- **Remove the dev-only backfill button** from AssessmentDashboardScreen (or restrict it via deeper auth)
+- **Remove `backfillTrainerRecommendations()`** service function
+- **Re-enable RLS** with policies per role (separate workstream)
+- **Remove hardcoded admin credentials** from the client bundle
+- **Wire Twilio** for real SMS OTP
+- **Drop `daily_logs`** dead table
+
+These are tracked in `FEATURE_STATUS.md` under "Pre-production hardening".
+
+---
+
+# How to report results
+
+For each test, reply with:
 
 ```
-TEST 9.1 — PASS. Score = 87, green band. No alert.
-TEST 9.2 — PASS. Score = 18, red band. Risk banner appeared.
-TEST 11.1 — PASS. Toast appeared, returned to client detail.
-TEST 13.1 — FAIL. Alex Johnson appeared in My Clients list.
-TEST 17.0 — Avg Readiness = 62 ✅, Adherence = 33% (after TEST 11) ✅, Energy = 7/10 ✅ ...
+TEST 4 — PASS. Recommended section visible, 2 trainers (Nalinitesta 21%, VinothTest 21%)
+TEST 9.1 — Score = 87, green band, no alert
+TEST 12 — FAIL. Alex Johnson appeared in My Clients list
 ```
 
-**Rules for good reports:**
-- Describe what you **actually saw**, not what you expected.
-- For any FAIL: exact test + step number, expected vs actual, screenshot if visual.
-- If a step was blocked, say so — don't skip silently.
-
----
-
-## What's already known (don't report these as new bugs)
-
-1. **Edit Profile form opens blank** — doesn't pre-fill. Fix is planned.
-2. **Rejection banner overflows on narrow mobile** — cosmetic, logged.
-3. **Asha Assessor doesn't receive routed messages** — use Test Assessor instead.
-4. **Weight Trend is intentionally absent** from client Progress screen — passive tracking deferred to post-MVP.
-5. **6 legacy `workout_logs` rows have `adherence_score = null`** — pre-P2.1 test data. Harmless, will be cleaned before production.
-
----
-
-## Issues found during this test pass (newly discovered, not pre-existing)
-
-Log new bugs here as you find them so they don't get lost:
-
-| # | Test | Description | Severity |
-|---|------|-------------|----------|
-| 1 | TEST 1 (Step 4) | Dashboard renders for 1–2 seconds before bouncing to "Your account is under review" screen. Unauthorised client can briefly see dashboard skeleton during the gap between profile creation and the clearance check. | Medium — security/UX; auto-corrects but exposes content that shouldn't be visible. |
-| | | | |
-
-(Add new rows as testing continues.)
-
----
-
-## After testing passes
-
-Once all tests pass on the dev URL, merge `dev → main` on GitHub:
-- Go to: `https://github.com/VinothMathaiyan/WellnessConnect`
-- Open a Pull Request from `dev` → `main`
-- Merge → Vercel auto-deploys to production within ~2 minutes
-
-**Remaining pre-production items (separate sessions — not for this test pass):**
-- RLS policies per table (trainer/client/assessor data isolation)
-- Remove hardcoded admin credentials from client bundle
-- Twilio for real SMS OTP
-- T17/T18 Payment screens (post-MVP)
-- Meal image scanning (needs Anthropic API credits)
-- Drop `daily_logs` dead table + test-data cleanup
+Rules for good reports:
+- Describe what you **actually saw**, not what you expected
+- For any FAIL: exact test + step number, expected vs actual, screenshot if visual
+- If a step was blocked, say so — don't skip silently
