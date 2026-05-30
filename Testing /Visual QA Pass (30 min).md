@@ -38,9 +38,9 @@ Visit each from the bottom nav and confirm:
 | Alerts (Notifications) | ✅ | ✅ | ✅ or 🟡 (this was deferred) - It worked | ✅ |
  
 ### A3 — Avatar consistency check
-- ☐ Click avatar from dashboard → opens menu with "Edit Profile" and "Sign out"
-- ☐ Navigate to a sub-screen (e.g. Clients) → avatar still shows **"T"**
-- ☐ The avatar style (circle border, white bg, colored text) looks the **same** on dashboard and sub-screen — no visual jump when navigating
+- 🟡 Click avatar from dashboard → opens menu with "Edit Profile" and "Sign out" - There is no Edit Profile 
+- ✅ Navigate to a sub-screen (e.g. Clients) → avatar still shows **"T"**
+- ✅ The avatar style (circle border, white bg, colored text) looks the **same** on dashboard and sub-screen — no visual jump when navigating
 ---
  
 ## Section B — Trainer App (10 min)
@@ -48,22 +48,22 @@ Visit each from the bottom nav and confirm:
 **Logout, then login:** Vinoth Trainer — `9200000011` / OTP `123456`
  
 ### B1 — Dashboard (`/trainer/dashboard`)
-- ☐ Top of screen: gradient hero banner (teal → green)
-- ☐ Banner shows greeting + dashboard title
-- ☐ Top-right avatar shows **"V"** (NOT "VT")
+- ✅ Top of screen: gradient hero banner (teal → green)
+- ✅ Banner shows greeting + dashboard title
+- 🟡 Top-right avatar shows **"V"** (NOT "VT") - Photo shown
 ### B2 — Sub-screens
 | Screen (route) | Header consistent? | Back arrow? | Avatar (V) top-right? | Note |
 |---|---|---|---|---|
-| My Clients | ☐ | ☐ | ☐ | |
-| Client Detail (tap any client) | ☐ | ☐ | 🟡 (intentional risk-dot) | risk-dot avatar OK |
-| Risk Monitor | ☐ | ☐ | ☐ | newly standardized |
-| Notifications | ☐ | ☐ | ☐ | newly standardized |
-| Messages | ☐ | ☐ | ☐ | |
-| Schedule Session (tap +) | ☐ | ☐ | ☐ | |
+| My Clients | 🟡 | ✅ | ✅ | | - V in all subscreen. Only in Dashboard screen it is Photo. THis is fine
+| Client Detail (tap any client) | ❌ | ❌ | 🟡 (intentional risk-dot) | risk-dot avatar OK | - there is no Avator in client page
+| Risk Monitor | ✅ | ✅ | ✅ | newly standardized |
+| Notifications | ✅ | ✅ | ✅ | newly standardized |
+| Messages | ✅ | ✅ | ✅ | |
+| Schedule Session (tap +) | ✅ | ✅ | ✅ | |
  
 ### B3 — Visual flow check
-- ☐ Navigate Dashboard → My Clients → Client Detail → Back → My Clients → Back → Dashboard
-- ☐ No visual jarring jumps. Same fonts, same spacing, same back-arrow style at each step.
+- ✅ Navigate Dashboard → My Clients → Client Detail → Back → My Clients → Back → Dashboard
+- ✅ No visual jarring jumps. Same fonts, same spacing, same back-arrow style at each step.
 ---
  
 ## Section C — Client App (10 min)
@@ -71,42 +71,42 @@ Visit each from the bottom nav and confirm:
 **Logout, then login:** Test Client — `9300000099` / OTP `123456`
  
 ### C1 — Home (`/client/home` or `/client/dashboard`)
-- ☐ **NO gradient hero banner** (this is intentional — calm/minimal design)
-- ☐ White/light background
-- ☐ Readiness Score card is the visual anchor at top
-- ☐ Top-right avatar shows **"T"**
-- ☐ Greeting/title looks calm, not "command center"-style
+- ✅ **NO gradient hero banner** (this is intentional — calm/minimal design)
+- ✅ White/light background
+- ✅ Readiness Score card is the visual anchor at top
+- ✅ Top-right avatar shows **"T"**
+- ✅ Greeting/title looks calm, not "command center"-style
 ### C2 — Sub-screens
 | Screen | Header consistent? | Back arrow? | Avatar (T) top-right? | Note |
 |---|---|---|---|---|
-| Daily Check-In | ☐ | ☐ | ☐ | |
-| Nutrition Log | ☐ | ☐ | ☐ | |
-| Progress | ☐ | ☐ | ☐ | |
-| Weekly Report | ☐ | ☐ | 🟡 (Share button + avatar) | deferred |
-| Trainers (Discover) | ☐ | ☐ | ☐ | newly standardized |
-| Alerts | ☐ | ☐ | 🟡 (deferred) | |
-| Session Detail (if available) | ☐ | ☐ | ☐ | |
+| Daily Check-In | 🟡 | 🟡 | 🟡 | No Avator in Daily Tracking Log and this is fine|
+| Nutrition Log | 🟡 | 🟡 | 🟡 | No Avator in Daily Tracking Log and this is fine|
+| Progress | ✅ | ❌ | ✅ | No Back arrow in Progress |
+| Weekly Report | ✅ | ✅ | ✅ (Share button + avatar) | deferred |
+| Trainers (Discover) | ✅ | ✅ | ✅ | newly standardized |
+| Alerts | ❌ | ❌ | ✅ (deferred) | |
+| Session Detail (if available) | 🟡 | 🟡 | 🟡 | Unable to see Session as there are no session scheduled |
  
 ### C3 — Critical check: Client Home does NOT have a gradient
-- ☐ Hard refresh the Client Home page
-- ☐ Confirm: NO green-to-green gradient banner above the Readiness card
-- ☐ The whole screen feels minimal, calm, and clean — not "operational dashboard"
+- ✅ Hard refresh the Client Home page
+- ✅ Confirm: NO green-to-green gradient banner above the Readiness card
+- ✅ The whole screen feels minimal, calm, and clean — not "operational dashboard"
 ---
  
 ## Section D — Cross-app comparison (5 min)
  
 This is where the consistency work pays off. Compare side-by-side.
  
-### D1 — Same shared component, different apps
-Open two browser windows side by side:
+### D1 — Same shared component, different apps  [Notification i see the difference between Client and Trainer]
+Open two browser windows side by side: [Client and Assessment have different in Client cards display. SCreenshot attached]
 - Window 1: logged in as Vinoth Trainer (avatar "V")
 - Window 2: logged in as Test Assessor (avatar "T")
-On each, navigate to a sub-screen.
-- ☐ Both headers look like the **same component** with different content
-- ☐ Both avatars are the same size, shape, border style — just different letter and color theme
+On each, navigate to a sub-screen. [Notification also have a difference. Assuming this is okay. Your suggestion?]
+- 🟡 Both headers look like the **same component** with different content
+- 🟡 Both avatars are the same size, shape, border style — just different letter and color theme
 ### D2 — Dashboard hero comparison
-- ☐ Trainer Dashboard hero (teal→green) and Assessor Dashboard hero (teal→purple) feel like **the same component**, just with different gradient colors
-- ☐ Client Home has **no hero** — intentional difference, not a bug
+- ✅ Trainer Dashboard hero (teal→green) and Assessor Dashboard hero (teal→purple) feel like **the same component**, just with different gradient colors
+- ✅ Client Home has **no hero** — intentional difference, not a bug
 ### D3 — The big test: same user, different screens
 - ☐ Stay logged in as one user. Visit 5 different screens (mix of dashboards and sub-screens).
 - ☐ The avatar's **letter** is the same on every screen (first letter of first name).
