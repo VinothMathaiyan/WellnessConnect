@@ -140,9 +140,9 @@ Admin portal (pre-register assessors): app URL + `/admin` → `admin@wellnesscon
 
 **Account:** Arun Kumar `9100000011` (Client)
 
-1. ☐ Log in as Arun Kumar
-2. ☐ Go to **Trainers** tab → **Discover** sub-tab
-3. ☐ **EXPECT:**
+1. ✅ Log in as Arun Kumar
+2. ✅ Go to **Trainers** tab → **Discover** sub-tab
+3. ✅ **EXPECT:**
    - Top section: **"Recommended For You"** with 2–5 trainers
    - Each trainer card shows: name, location, experience, match %, View Profile
    - Below: **"All Trainers"** with the rest of approved trainers
@@ -150,12 +150,12 @@ Admin portal (pre-register assessors): app URL + `/admin` → `admin@wellnesscon
 
 | Field | Expected | Actual |
 |-------|----------|--------|
-| Recommended section visible | Yes | ☐ |
-| Number of recommended trainers | 2 | ☐ |
-| Top match % | 21% | ☐ |
-| Top recommended trainer | Nalinitesta | ☐ |
-| Second recommended trainer | VinothTest | ☐ |
-| All Trainers section visible below | Yes | ☐ |
+| Recommended section visible | Yes | ✅ |
+| Number of recommended trainers | 2 | ✅ |
+| Top match % | 21% | ✅ |
+| Top recommended trainer | Nalinitesta | ✅ |
+| Second recommended trainer | VinothTest | ✅ |
+| All Trainers section visible below | Yes | ✅ |
 
 ✋ **PAUSE — reply with values you saw.** I'll verify against `trainer_recommendations` table.
 
