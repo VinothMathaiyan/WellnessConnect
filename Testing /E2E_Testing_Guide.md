@@ -322,7 +322,9 @@ All the other i given in the previous chat
 ### 11.2 — Acknowledge alert
 3. 🟡 Tap any alert → detail screen → tap **Acknowledge**
 **Notes:**
-- No active to show. Refer ![Image](images/Part5_11_1.png)
+- No active to show. Refer
+  
+  ![Image](images/Part5_11_1.png)
 
 ✋ **PAUSE.** I'll confirm `is_read = true`.
 
@@ -330,7 +332,10 @@ All the other i given in the previous chat
 4. 🟡 On Risk Alert detail → tap **"Escalate to Assessment Team"**
 5. 🟡 Confirm
 **Notes:**
-- No active to show. Refer (images/Part5_11_1.png)
+- No active to show. Refer
+  
+  ![image](images/Part5_11_1.png)
+  
 ✋ **PAUSE — reply with client name escalated.** I'll verify: (a) `escalations.assessor_id` is set (not null), (b) matches the assessor who cleared that client, (c) notification fired to that [...]
 
 ### 11.4 — Assessor receives
