@@ -322,7 +322,7 @@ All the other i given in the previous chat
 ### 11.2 — Acknowledge alert
 3. 🟡 Tap any alert → detail screen → tap **Acknowledge**
 **Notes:**
-- No active to show. Refer (images/Part5_11_1.png)
+- No active to show. Refer ![Image](images/Part5_11_1.png)
 
 ✋ **PAUSE.** I'll confirm `is_read = true`.
 
