@@ -312,7 +312,7 @@ All the other i given in the previous chat
 2. 🟡 List clients and severity shown
 
 **Screenshot:**
-![Risk screenshot](images/Part5_11_1.png.png)
+![Risk screenshot](images/Part5_11_1.png)
 **Notes:**
 - No active alerts or Clients and severity shown
 
@@ -324,7 +324,7 @@ All the other i given in the previous chat
 **Notes:**
 - No active to show. Refer
   
-  ![Image](images/Part5_11_1.png)
+![screenshot](images/Part5_11_1.png)  
 
 ✋ **PAUSE.** I'll confirm `is_read = true`.
 
@@ -333,8 +333,8 @@ All the other i given in the previous chat
 5. 🟡 Confirm
 **Notes:**
 - No active to show. Refer
+![screenshot](images/Part5_11_1.png)  
   
-  ![image](images/Part5_11_1.png)
   
 ✋ **PAUSE — reply with client name escalated.** I'll verify: (a) `escalations.assessor_id` is set (not null), (b) matches the assessor who cleared that client, (c) notification fired to that [...]
 
