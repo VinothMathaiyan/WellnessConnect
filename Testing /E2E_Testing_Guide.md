@@ -308,26 +308,41 @@ All the other i given in the previous chat
 **Account:** Vinoth Trainer `9200000011` (Trainer)
 
 ### 11.1 — Risk Monitor shows correct clients
-1. ✅ Open **Risk** tab
+1. ✅ Open **Risk** tab  
 2. 🟡 List clients and severity shown
+
+**Screenshot:**
+![Risk screenshot](images/Part5_11_1.png.png)
+**Notes:**
+- No active alerts or Clients and severity shown
+
 
 ✋ **PAUSE — reply with the names.** I'll cross-check that only Vinoth's clients appear.
 
 ### 11.2 — Acknowledge alert
-3. ☐ Tap any alert → detail screen → tap **Acknowledge**
+3. 🟡 Tap any alert → detail screen → tap **Acknowledge**
+**Notes:**
+- No active to show. Refer (images/Part5_11_1.png)
 
 ✋ **PAUSE.** I'll confirm `is_read = true`.
 
 ### 11.3 — Escalate to Assessment Team
-4. ☐ On Risk Alert detail → tap **"Escalate to Assessment Team"**
-5. ☐ Confirm
-
+4. 🟡 On Risk Alert detail → tap **"Escalate to Assessment Team"**
+5. 🟡 Confirm
+**Notes:**
+- No active to show. Refer (images/Part5_11_1.png)
 ✋ **PAUSE — reply with client name escalated.** I'll verify: (a) `escalations.assessor_id` is set (not null), (b) matches the assessor who cleared that client, (c) notification fired to that [...]
 
 ### 11.4 — Assessor receives
-6. ☐ Log in as **Test Assessor** `9600000001`
-7. ☐ Open Notifications tab → **EXPECT:** new `risk_escalation` notification at top
-8. ☐ Open Escalations tab → assigned to me
+6. ✅ Log in as **Test Assessor** `9600000001`
+7. ❌ Open Notifications tab → **EXPECT:** new `risk_escalation` notification at top
+8. ❌ Open Escalations tab → assigned to me
+
+**Screenshot:**
+![Alert screenshot](images/Part5_11_4.png)
+
+**Notes:**
+- No risk alert
 
 ---
 
