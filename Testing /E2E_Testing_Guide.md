@@ -296,7 +296,7 @@ All the other i given in the previous chat
 8. ✅ Log another: Status: **Cancelled** · Notes: **"Cancelled 2hr before"** [Sun, 31 May, 2026 · 1:00 pm : cancelled the session]
 
 ✋ **PAUSE.** I'll verify `session_status = 'cancelled_client'`.
-
+**Notes:** TEST 10.2 and 10.3 as 🟡 Blocked — status picker not visible. We'll investigate after the test pass.
 ---
 
 # PART 5 — Risk Monitor & Escalation
@@ -333,12 +333,7 @@ All the other i given in the previous chat
 4. 🟡 On Risk Alert detail → tap **"Escalate to Assessment Team"**
 5. 🟡 Confirm
 **Notes:**
-- No active to show. Refer
-
-**Screenshot:**
-![screenshot](images/Part5_11_1.png)
-  
-  
+- No active to show. Refer (images/Part5_11_1.png)
 ✋ **PAUSE — reply with client name escalated.** I'll verify: (a) `escalations.assessor_id` is set (not null), (b) matches the assessor who cleared that client, (c) notification fired to that [...]
 
 ### 11.4 — Assessor receives
@@ -362,10 +357,10 @@ All the other i given in the previous chat
 
 **Account:** Vinoth Trainer `9200000011` (Trainer)
 
-1. ☐ My Clients tab → list all clients
-2. ☐ **EXPECT:** **Alex Johnson** does NOT appear
-3. ☐ Note the active client count on Dashboard
-4. ☐ **EXPECT:** count matches the number of cleared clients visible in the list
+1. ✅ My Clients tab → list all clients [ Screenshot: P6_T12_1.png]
+2. ✅ **EXPECT:** **Alex Johnson** does NOT appear 
+3. ✅ Note the active client count on Dashboard [Screenshot: P6_T12_2.png]
+4. ✅ **EXPECT:** count matches the number of cleared clients visible in the list [Yes: 2]
 
 ✋ **PAUSE — reply with the count.** I'll verify against the cleared-clients-only filter.
 
