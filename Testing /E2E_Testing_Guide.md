@@ -308,8 +308,8 @@ All the other i given in the previous chat
 **Account:** Vinoth Trainer `9200000011` (Trainer)
 
 ### 11.1 — Risk Monitor shows correct clients
-1. ☐ Open **Risk** tab
-2. ☐ List clients and severity shown
+1. ✅ Open **Risk** tab
+2. 🟡 List clients and severity shown
 
 ✋ **PAUSE — reply with the names.** I'll cross-check that only Vinoth's clients appear.
 
