@@ -262,9 +262,10 @@ Currently expected: toast says "**6**" (4 clients successfully populated, plus 2
 
 ✋ **PAUSE.** I'll confirm 1 row total (3 upserts → 1 row).
 
+All the other i given in the previous chat
 ### 9.4 — Pain score not hardcoded
-6. ☐ Open **Progress** screen
-7. ☐ **EXPECT:** Pain shows the value you entered, NOT 0 and NOT "—"
+6. ✅ Open **Progress** screen
+7. 🟡 **EXPECT:** Pain shows the value you entered, NOT 0 and NOT "—"  Here is the screenshot. [[Do you mean Pain shows??]]
 
 ---
 
@@ -277,22 +278,22 @@ Currently expected: toast says "**6**" (4 clients successfully populated, plus 2
 **Account:** Vinoth Trainer `9200000011` (Trainer) logging for Arun Kumar (Client)
 
 ### 10.1 — Completed session
-1. ☐ Log in as Vinoth Trainer
-2. ☐ My Clients → **Arun Kumar** → Log Session
-3. ☐ Date: today · Status: **Completed** · Effort: **4/5** · 2 exercises · Notes: blank
-4. ☐ Save
-5. ☐ **EXPECT:** success toast → returns to client detail
+1. ✅ Log in as Vinoth Trainer
+2. ✅ My Clients → **Arun Kumar** → Log Session
+3. 🟡 Date: today · Status: **Completed** · Effort: **4/5** · 2 exercises · Notes: blank [I scheduled a session]
+4. ✅ Save
+5. ✅ **EXPECT:** success toast → returns to client detail
 
 ✋ **PAUSE — reply done.** I'll verify: `adherence_score = 80` (not 4), `session_status = 'completed'`, `exercise_sets` rows created, `client_notes` is null.
 
 ### 10.2 — No-show session
-6. ☐ Log another session: Status: **No-show** · Notes: **"Did not show up"**
-7. ☐ Save
+6. 🟡 Log another session: Status: **No-show** · Notes: **"Did not show up"** [Help me to understand where the status shows. I dont see an option to select No Show. I manually marked few session as completed]
+7. ✅ Save
 
 ✋ **PAUSE.** I'll verify: `session_status = 'no_show'`, notes contain the text WITHOUT a `[No-show]` prefix, no `exercise_sets` inserted.
 
 ### 10.3 — Cancelled by client
-8. ☐ Log another: Status: **Cancelled** · Notes: **"Cancelled 2hr before"**
+8. ✅ Log another: Status: **Cancelled** · Notes: **"Cancelled 2hr before"** [Sun, 31 May, 2026 · 1:00 pm : cancelled the session]
 
 ✋ **PAUSE.** I'll verify `session_status = 'cancelled_client'`.
 
