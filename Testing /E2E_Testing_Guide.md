@@ -219,19 +219,20 @@ Navigate: `/trainer/client-progress/aaf9e9b9-6fae-4540-a4a8-2e1416fd5749`
 | Field | Expected | Actual |
 |-------|----------|--------|
 | Client name | Arun Kumar | ___ |
-| Avg Readiness (7D) | low (recent 11–18 check-ins) | ___ |
-| Adherence | ~71% | ___ |
-| Pain | high (recent 10/10) — lower is better | ___ |
-| Current Program visible | Yes | ___ |
+| Avg Readiness (7D) | low (recent 11–18 check-ins) | 16 |
+| Adherence | ~71% | 71 |
+| Pain | high (recent 10/10) — lower is better | 10 |
+| Current Program visible | Yes | Yes |
+Refer image P9_16.png
 
-### 16.1 — Five sections render
+### 16.1 — Five sections render [Screenshot attached - P9_16.1.png]
 ☐ Summary cards (2×2) · ☐ Readiness trend (14d bar chart) · ☐ Metric averages (30d) · ☐ Recent check-ins (incl. trainer note now) · ☐ Current program + Edit Program
 
-### 16.2 — Edit Program → opens Program Builder for Arun ☐
-### 16.3 — Empty state (Michael `fd4f6548-...`) → "—" for missing, no crash ☐
-### 16.4 — Edge case (Alex `77e89d06-...`) → graceful empty / "not your client", no crash ☐
+### 16.2 — Edit Program → opens Program Builder for Arun ☐ [Yes, Screenshot attached - P9_16.1.png]
+### 16.3 — Empty state (Michael `fd4f6548-...`) → "—" for missing, no crash ☐ [No Michael]
+### 16.4 — Edge case (Alex `77e89d06-...`) → graceful empty / "not your client", no crash ☐  [No Michael]
 
-> Note: use the NEW canonical UUIDs above — old `1111…`/`3333…` are deleted.
+> Note: use the NEW canonical UUIDs above — old `1111…`/`3333…` are deleted. [Thanks]
 
 ---
 
