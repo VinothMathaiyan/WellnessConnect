@@ -238,23 +238,23 @@ Refer image P9_16.png
 
 # PART 10 — Visual Consistency  ✅ (covered in separate Visual QA pass)
 
-## TEST 17 — Avatars & headers
+## TEST 17 — Avatars & headers [Avatars & headers - Already verified. All good]
 Mostly verified already. Spot-check: Vinoth shows "V" (photo on dashboard OK), Test Assessor "T", Test Client "T" — consistent across screens. Tab destinations (Alerts/Messages/Progress/Trainers) correctly have NO back arrow. Client home calm (no gradient); Trainer/Assessor dashboards gradient hero. Alerts header standardized.
 
 ---
 
 # PART 11 — Hard refresh
 
-## TEST 18 — Hard refresh doesn't break  ☐
+## TEST 18 — Hard refresh doesn't break  [Hard refresh doesn't break All good]
 1. ☐ Log in (any role) · ☐ F5 anywhere · ☐ EXPECT brief spinner → reloads correctly · ☐ NOT acceptable: login flash, null userId, blank page
 
 ---
 
-# TEST 13 — Assessment notes in Accept-Decline  ☐ (needs setup)
-**Needs a pending trainer-client link** (TEST 1 creates one as a side effect, or set one up manually).
+# TEST 13 — Assessment notes in Accept-Decline  ☐ (needs setup)  [Check all images with prefix P11_*]
+**Needs a pending trainer-client link** (TEST 1 creates one as a side effect, or set one up manually). [created a new client - 9300000100]
 **Account:** Vinoth Trainer `9200000011`
 1. ☐ Open the pending client request
-2. ☐ EXPECT above accept/decline: clearance badge, fitness level, health notes
+2. ☐ EXPECT above accept/decline: clearance badge, fitness level, health notes [I dont see these batches - P11_T13_Trainer3.png. Proably because i cleared in assessment login before i open this trainer login]
 3. ☐ If no assessment → "No assessment on file" (defense-in-depth)
 
 ---
