@@ -299,3 +299,47 @@ TEST 14 — PASS. 1 breakfast row, updated to B/500, then lunch added = 2 rows
 TEST 16 — Arun progress: readiness 18, adherence 71%, all 5 sections render
 ```
 Describe what you actually saw. For FAILs: test + step, expected vs actual, screenshot. Say if a step was blocked — don't skip silently.
+
+
+# WellnessConnect — E2E Testing Guide v7 (Jun 03 2026)
+## Cycle status: COMPLETE — all tests pass
+
+| Test | Area | Status |
+|------|------|--------|
+| 1.2  | Consent recorded at signup (Master doc) | ✅ PASS — `9100000070` consent_at stamped at creation, unchanged after re-login |
+| 4    | (per v6) | ✅ PASS |
+| 5    | (per v6) | ✅ PASS |
+| 6    | (per v6) | ✅ PASS |
+| 7    | (per v6) | ✅ PASS |
+| 8    | (per v6) | ✅ PASS |
+| 9    | (9.3 optional, skipped) | ✅ PASS |
+| 10   | Sessions (incl. 10.2/10.3 no-show/cancel) | ✅ PASS — fixed `36a6072` |
+| 11   | (per v6) | ✅ PASS |
+| 12   | (per v6) | ✅ PASS |
+| 13   | Accept/Decline assessment notes | ✅ PASS — fixed (3 commits: ee2563e, 5ea307f, 386a639) |
+| 14   | Nutrition meal upsert | ✅ PASS — Priya, 2 rows, dedup confirmed |
+| 15   | Weekly reflection (multi-day + IST) | ✅ PASS — see below |
+| 16   | Notifications | ✅ PASS (16.3/16.4 sub-cases optional, not run) |
+| 17   | (per v6) | ✅ PASS |
+| 18   | (per v6) | ✅ PASS |
+| 19   | Adherence score (instructor-led) | ✅ PASS — new, fixed `36a6072`, Arun = 83% |
+
+## TEST 15 — Weekly Reflection — CLOSED (PASS)
+Account: Test Client `9300000099` (`bec6135c-bcba-4073-a5a4-890369d191f9`)
+- 3 descending check-ins seeded: Jun 1 = 83, Jun 2 = 49, Jun 3 = 36. No risk alerts fired (pain ≤ Moderate, readiness ≥ 30). ✓
+- Weekly Report unlocked after 3rd log; header "Week 23 · 01/06/2026–07/06/2026"; Avg Readiness 56 = (83+49+36)/3 ✓
+- Reflection "IST timezone test" persisted to `weekly_reflections`:
+  - `week_start` = **2026-06-01 (Monday)** ✓ — IST-correct, not UTC-shifted to 05-31
+  - `note` = "IST timezone test" ✓
+  - Single row across two saves → upsert dedup on (user_id, week_start) confirmed ✓
+  - Pre-fills correctly on return to screen ✓
+
+### Bug fixed to close TEST 15 (two compounding causes)
+1. **RLS (primary):** `weekly_reflections` had RLS ENABLED but ZERO policies → all writes denied by default. Added 3 owner-scoped policies (select/insert/update, `user_id = auth.uid()`).
+2. **Code (race):** save button called `handleWeeklyReportSave` fire-and-forget then navigated, unmounting mid-write. Now awaits `saveWeeklyReflection` before navigate, with `isSaving` guard; stays on screen on failure.
+- Also confirmed: `weekly_reflections_user_id_week_start_key` UNIQUE constraint exists on (user_id, week_start).
+
+## Business rules locked this cycle
+- **Readiness** = sleep 20 / sleep-quality 10 / mood 15 / energy 15 / pain 20 (inverted) / mobility 10 / water 10 = 100.
+- **Adherence (instructor-led)** = completed ÷ (completed + no_show) × 100. Cancellations excluded. No-show counts against. 30-day window. Zero qualifying → "not enough data".
+- **Consent** = DB-default-only (`consent_at` never written by app code) → structurally immutable.
