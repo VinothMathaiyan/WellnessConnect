@@ -1,4 +1,4 @@
-# WellnessConnect — Tester 1 Guide
+# WellnessConnect — Tester 1 Guide (Tone)
 
 **Thank you for helping us test!** This guide walks you through the full journey of our
 health & wellness app, step by step. You don't need any technical knowledge — just follow
@@ -17,15 +17,15 @@ uses — you'll log into it at a few steps to approve things.
 
 > **The golden rule:** always type the names **exactly** as shown below. When you're in the
 > Assessment Team screens you will see **other testers' names too** — only ever tap/approve
-> the names that start with **T1** (your tester number). Leave everyone else's alone.
+> the names that start with **Tone** (your names). Leave everyone else's alone.
 > It's fine if another tester is using the Assessment Team account at the same time as you.
 
 ### Your accounts
 
 | Role | Name to type at signup | Phone number to enter | One-time code (OTP) |
 |------|------------------------|------------------------|----------------------|
-| **Client** | `T1 Client` | `9100000101` | `123456` |
-| **Trainer** | `T1 Trainer` | `9200000101` | `123456` |
+| **Client** | `Tone Client` | `9100000101` | `123456` |
+| **Trainer** | `Tone Trainer` | `9200000101` | `123456` |
 | **Assessment Team** (shared) | *(already exists — don't rename)* | `9600000001` | `123456` |
 
 ### How to use the app
@@ -60,10 +60,10 @@ and **what you should see**.
 
 **Do this:**
 1. Open the website in incognito. Sign up with phone **`9100000101`**, code `123456`.
-2. When asked to choose a role, pick **Client**. Enter the name **`T1 Client`**.
+2. When asked to choose a role, pick **Client**. Enter the name **`Tone Client`**.
 3. Fill in the short profile it asks for (age, goals, etc.) and submit.
 4. Open a **new incognito window**. Sign up with phone **`9200000101`**, code `123456`.
-5. Choose **Trainer**. Enter the name **`T1 Trainer`**. Complete the trainer details
+5. Choose **Trainer**. Enter the name **`Tone Trainer`**. Complete the trainer details
    (certification, specialities, etc.) and submit.
 
 **You should see:**
@@ -72,6 +72,14 @@ and **what you should see**.
 
 > This is correct! New users are held until the Assessment Team reviews them. The next tests
 > fix that.
+
+> **Please tell us exactly where each account landed after you signed up:**
+> - The **Client** — did it show an "under review / pending" screen, or did it go straight
+>   into the app?
+> - The **Trainer** — did it show an "under review" screen, or did it go straight to the
+>   trainer dashboard?
+>
+> (Either answer is useful — just tell us what you actually saw.)
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -83,7 +91,7 @@ and **what you should see**.
 
 **Do this:**
 1. Find the **Trainer Approval** area.
-2. In the list, find **`T1 Trainer`** (your trainer — ignore all other names).
+2. In the list, find **`Tone Trainer`** (your trainer — ignore all other names).
 3. Open it, review the details, and tap **Approve**.
 4. Now switch to your **Trainer** account (`9200000101`).
 
@@ -101,7 +109,7 @@ and **what you should see**.
 
 **Do this:**
 1. Find the **Client Queue** (clients waiting for assessment).
-2. Find **`T1 Client`** (ignore other names).
+2. Find **`Tone Client`** (ignore other names).
 3. Open it, fill in the short assessment, set a fitness level, and choose **Clear for Training**.
 4. Now switch to your **Client** account (`9100000101`). If it still shows the pending
    screen, tap **Check status** (or refresh).
@@ -122,10 +130,10 @@ and **what you should see**.
 1. As **Client** (`9100000101`) → **Trainers** → open any trainer's profile → send a
    **request to connect** (or "request callback").
 2. Switch to your **Trainer** (`9200000101`) → go to **My Clients**.
-3. Find the pending request from **`T1 Client`** → tap **Accept**.
+3. Find the pending request from **`Tone Client`** → tap **Accept**.
 
 **You should see:**
-- As Trainer, **`T1 Client`** moves into your **active clients** list after you accept.
+- As Trainer, **`Tone Client`** moves into your **active clients** list after you accept.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -136,7 +144,7 @@ and **what you should see**.
 **Log in as:** Trainer → then Client
 
 **Do this:**
-1. As **Trainer** → open **`T1 Client`** → **Program Builder** → create/assign a simple
+1. As **Trainer** → open **`Tone Client`** → **Program Builder** → create/assign a simple
    program → save.
 2. Switch to **Client** → look for a notification or prompt to **review your program** →
    open it → tap **Approve Program**.
@@ -158,7 +166,7 @@ and **what you should see**.
 **Log in as:** Trainer → then Client
 
 **Do this:**
-1. As **Trainer** → open **`T1 Client`** → **Schedule Session**.
+1. As **Trainer** → open **`Tone Client`** → **Schedule Session**.
 2. Pick **today's date**, any time, session type **Video**, duration **45 min**, add a note,
    and **Save**.
 3. *(Optional)* If it asks for a meeting link, paste a real-looking one like
@@ -179,7 +187,7 @@ and **what you should see**.
 **Log in as:** Trainer
 
 **Do this:**
-1. As **Trainer** → open **`T1 Client`** → find the session you scheduled **today** →
+1. As **Trainer** → open **`Tone Client`** → find the session you scheduled **today** →
    tap **Complete**.
 
 **You should see:**
@@ -213,8 +221,8 @@ and **what you should see**.
 > **How the Readiness score works (just so you understand the number — you don't calculate it):**
 > It's a 0–100 score built from your 7 daily inputs, weighted like this —
 > sleep hours **20**, sleep quality **10**, mood **15**, energy **15**, pain **20**
-> (more pain = fewer points), mobility **10**, water **10**. A perfect day ≈ 100; a rough day
-> drops into the teens. High pain alone removes a big chunk.
+> (more pain = fewer points), mobility **10**, water **10**. A perfect day is about 100; a rough
+> day drops into the teens. High pain alone removes a big chunk.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -226,13 +234,13 @@ and **what you should see**.
 
 **Do this:**
 1. As **Trainer** (`9200000101`) → open the **Risk** area.
-2. Find **`T1 Client`** (from the bad-day check-in in Test 8) → open the alert →
+2. Find **`Tone Client`** (from the bad-day check-in in Test 8) → open the alert →
    tap **Acknowledge** → then tap **Escalate to Assessment Team** → confirm.
 3. Switch to **Assessment Team** (`9600000001`) → open the **Escalations** area.
 
 **You should see:**
 - As Trainer: your Client's alert appears, marked **high** importance.
-- After escalating: as Assessment Team, the escalation for **`T1 Client`** appears in the
+- After escalating: as Assessment Team, the escalation for **`Tone Client`** appears in the
   **Escalations** list (Open).
 
 > A different trainer should **not** see your client's alert — only the client's own trainer
@@ -247,12 +255,12 @@ and **what you should see**.
 **Log in as:** Trainer → Client → Assessment Team → Trainer
 
 **Do this:**
-1. As **Trainer** → open **`T1 Client`** → send a message like "Hello from your trainer".
+1. As **Trainer** → open **`Tone Client`** → send a message like "Hello from your trainer".
 2. Switch to **Client** → open **Messages** → check the conversation with your trainer.
 3. Now reply from the **Client** side: send "Hi coach, got it".
 4. Switch back to **Trainer** → open the conversation again.
 5. *(Assessment Team channel)* As **Assessment Team** (`9600000001`) → **Messages** → send a
-   message to **`T1 Trainer`**. Then switch to your **Trainer** account and open Messages.
+   message to **`Tone Trainer`**. Then switch to your **Trainer** account and open Messages.
 
 **You should see:**
 - Both the Client and the Trainer see the **same conversation** with **both** messages, in order.
@@ -267,7 +275,7 @@ and **what you should see**.
 **Log in as:** Trainer
 
 **Do this:**
-1. As **Trainer** → open **`T1 Client`** → **Schedule Session** and create **a few sessions
+1. As **Trainer** → open **`Tone Client`** → **Schedule Session** and create **a few sessions
    dated today** (e.g. 3 of them). Save each.
 2. On those sessions, set different outcomes:
    - Mark **2 as Complete**.
@@ -280,8 +288,8 @@ and **what you should see**.
   should read about **67%**.
 
 > **How the Adherence score works (just so you understand it):**
-> Adherence = **Completed ÷ (Completed + No-show)**. Cancelled sessions are **ignored**
-> (they don't count for or against). So 2 completed + 1 no-show = 2 ÷ 3 ≈ **67%**.
+> Adherence = **Completed divided by (Completed + No-show)**. Cancelled sessions are **ignored**
+> (they don't count for or against). So 2 completed + 1 no-show = 2 / 3 = about **67%**.
 > If there are no completed/missed sessions yet, it shows **"not enough data"**, not 0%.
 >
 > **Heads-up (not a bug):** the **Client's** own Progress screen shows a *different* adherence
@@ -341,7 +349,7 @@ For each test, please tell us:
 A simple format works great:
 
 ```
-Test 1 — OK
+Test 1 — Client showed "under review", Trainer went straight to the dashboard
 Test 2 — OK
 Test 3 — Saw the recommended trainers, looked fine
 Test 4 — OK
@@ -353,4 +361,4 @@ Test 6 — Session showed but the time looked 1 hour off (screenshot attached)
 **Reminder:** you don't need to check any numbers or data — just tell us what appeared on
 screen. We'll verify all the details on our side.
 
-**Thank you, Tester 1!** 🙏
+**Thank you, Tester 1 (Tone)!**
