@@ -131,19 +131,23 @@ and **what you should see**.
 
 **Do this:**
 1. As **Client** (`9100000101`) → **Trainers** → find and open **`Tone Trainer`**
-   (your own trainer — not just any trainer in the list) → send a **request to connect**
-   (or "request callback").
-2. Switch to your **Trainer** (`9200000101`) → go to **My Clients → Active Clients**.
-3. You'll see **`Tone Client`** show up there as a **pending request** → tap that pending
-   request to open it.
+   (your own trainer — not just any trainer in the list).
+2. On the trainer's profile, tap **Request Call Back**. (This sends a connection request to
+   that trainer.)
+3. Switch to your **Trainer** (`9200000101`) → go to **My Clients**.
+4. Under **Requests**, you'll see **`Tone Client`** marked **PENDING** → tap it to open the
+   request.
 
 **You should see:**
-- When you open the pending request, you can **see the client's health details** (conditions,
-  goals, etc.) — so you can decide whether to accept.
-- Tap **Accept** → **`Tone Client`** becomes an active client under **Active Clients**.
+- The trainer's **My Clients** header shows a **pending** request (e.g. "0 active · 1 pending").
+- Opening the request shows a **review screen** with the client's summary — name, phone, their
+  level (e.g. "Beginner"), and the **Assessment Team notes** ("✓ Cleared"). This is the
+  trainer's "review before accepting" view.
+- Tap **Accept Client** → **`Tone Client`** moves into the trainer's **active clients**.
 
-> **Please confirm:** on the pending request (BEFORE you tap Accept), could you see the
-> client's health details, or was that area blank? Either answer helps us.
+> **Please tell us:** when you opened the pending request (before accepting), did the client's
+> summary and the "✓ Cleared" assessment note show up, or was that area blank? Either answer
+> helps us.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
