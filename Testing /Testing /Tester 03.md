@@ -1,4 +1,4 @@
-# WellnessConnect — Tester 3 Guide
+# WellnessConnect — Tester 3 Guide (Coral)
 
 **Thank you for helping us test!** This guide walks you through the full journey of our
 health & wellness app, step by step. You don't need any technical knowledge — just follow
@@ -17,15 +17,15 @@ uses — you'll log into it at a few steps to approve things.
 
 > **The golden rule:** always type the names **exactly** as shown below. When you're in the
 > Assessment Team screens you will see **other testers' names too** — only ever tap/approve
-> the names that start with **T3** (your tester number). Leave everyone else's alone.
+> the names that start with **Coral** (your names). Leave everyone else's alone.
 > It's fine if another tester is using the Assessment Team account at the same time as you.
 
 ### Your accounts
 
 | Role | Name to type at signup | Phone number to enter | One-time code (OTP) |
 |------|------------------------|------------------------|----------------------|
-| **Client** | `T3 Client` | `9100000103` | `123456` |
-| **Trainer** | `T3 Trainer` | `9200000103` | `123456` |
+| **Client** | `Coral Client` | `9100000152` | `123456` |
+| **Trainer** | `Coral Trainer` | `9200000152` | `123456` |
 | **Assessment Team** (shared) | *(already exists — don't rename)* | `9600000001` | `123456` |
 
 ### How to use the app
@@ -59,11 +59,11 @@ and **what you should see**.
 **Log in as:** (you'll create both)
 
 **Do this:**
-1. Open the website in incognito. Sign up with phone **`9100000103`**, code `123456`.
-2. When asked to choose a role, pick **Client**. Enter the name **`T3 Client`**.
-3. Fill in the short profile it asks for (age, goals, etc.) and submit.
-4. Open a **new incognito window**. Sign up with phone **`9200000103`**, code `123456`.
-5. Choose **Trainer**. Enter the name **`T3 Trainer`**. Complete the trainer details
+1. Open the website in incognito. Sign up with phone **`9100000152`**, code `123456`.
+2. When asked to choose a role, pick **Client**. Enter the name **`Coral Client`**.
+3. Fill in the short profile it asks for (age, goals, health details, etc.) and submit.
+4. Open a **new incognito window**. Sign up with phone **`9200000152`**, code `123456`.
+5. Choose **Trainer**. Enter the name **`Coral Trainer`**. Complete the trainer details
    (certification, specialities, etc.) and submit.
 
 **You should see:**
@@ -71,7 +71,15 @@ and **what you should see**.
 - The **Trainer** lands on an **"application under review"** screen — *not* the trainer dashboard.
 
 > This is correct! New users are held until the Assessment Team reviews them. The next tests
-> fix that.
+> open things up.
+
+> **Please tell us exactly where each account landed after you signed up:**
+> - The **Client** — did it show an "under review / pending" screen, or did it go straight
+>   into the app?
+> - The **Trainer** — did it show an "under review" screen, or did it go straight to the
+>   trainer dashboard?
+>
+> (Either answer is useful — just tell us what you actually saw.)
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -83,9 +91,9 @@ and **what you should see**.
 
 **Do this:**
 1. Find the **Trainer Approval** area.
-2. In the list, find **`T3 Trainer`** (your trainer — ignore all other names).
+2. In the list, find **`Coral Trainer`** (your trainer — ignore all other names).
 3. Open it, review the details, and tap **Approve**.
-4. Now switch to your **Trainer** account (`9200000103`).
+4. Now switch to your **Trainer** account (`9200000152`).
 
 **You should see:**
 - After approving, your **Trainer** account can now reach the **trainer dashboard** (no more
@@ -101,12 +109,15 @@ and **what you should see**.
 
 **Do this:**
 1. Find the **Client Queue** (clients waiting for assessment).
-2. Find **`T3 Client`** (ignore other names).
-3. Open it, fill in the short assessment, set a fitness level, and choose **Clear for Training**.
-4. Now switch to your **Client** account (`9100000103`). If it still shows the pending
+2. Find **`Coral Client`** (ignore other names).
+3. Open it. You should be able to **see the client's health details** (age, goals,
+   conditions, etc.). Fill in the short assessment, set a fitness level, and choose
+   **Clear for Training**.
+4. Now switch to your **Client** account (`9100000152`). If it still shows the pending
    screen, tap **Check status** (or refresh).
 
 **You should see:**
+- As Assessment Team: the client's health profile is **visible** to you.
 - Your **Client** account now opens the **full app**.
 - In **Trainers → Discover**, there's a **"Recommended For You"** list of trainers.
 
@@ -119,35 +130,46 @@ and **what you should see**.
 **Log in as:** Client → then Trainer
 
 **Do this:**
-1. As **Client** (`9100000103`) → **Trainers** → open any trainer's profile → send a
-   **request to connect** (or "request callback").
-2. Switch to your **Trainer** (`9200000103`) → go to **My Clients**.
-3. Find the pending request from **`T3 Client`** → tap **Accept**.
+1. As **Client** (`9100000152`) → **Trainers** → find and open **`Coral Trainer`**
+   (your own trainer — not just any trainer in the list).
+2. On the trainer's profile, tap **Request Call Back**. (This sends a connection request to
+   that trainer.)
+3. Switch to your **Trainer** (`9200000152`) → go to **My Clients**.
+4. Under **Requests**, you'll see **`Coral Client`** marked **PENDING** → tap it to open the
+   request.
 
 **You should see:**
-- As Trainer, **`T3 Client`** moves into your **active clients** list after you accept.
+- The trainer's **My Clients** header shows a **pending** request (e.g. "0 active · 1 pending").
+- Opening the request shows a **review screen** with the client's summary — name, phone, their
+  level (e.g. "Beginner"), and the **Assessment Team notes** ("✓ Cleared"). This is the
+  trainer's "review before accepting" view.
+- Tap **Accept Client** → **`Coral Client`** moves into the trainer's **active clients**.
+
+> **Please tell us:** when you opened the pending request (before accepting), did the client's
+> summary and the "✓ Cleared" assessment note show up, or was that area blank? Either answer
+> helps us.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
 ---
 
-### TEST 5 — Trainer builds a program, Client approves it
+### TEST 5 — Trainer creates a program, Client sees it
 
 **Log in as:** Trainer → then Client
 
 **Do this:**
-1. As **Trainer** → open **`T3 Client`** → **Program Builder** → create/assign a simple
-   program → save.
-2. Switch to **Client** → look for a notification or prompt to **review your program** →
-   open it → tap **Approve Program**.
-3. Go to the Client **Home** screen and refresh (Ctrl/Cmd + Shift + R).
+1. As **Trainer** → open **`Coral Client`** → scroll down to the **Current Program** section →
+   tap **Create Program** → build/assign a simple program → save it.
+2. Switch to your **Client** account (`9100000152`) → open **Alerts** → tap the
+   **new-program notification** → your program opens.
 
 **You should see:**
-- Before approving: the Client Home may say **"No active plan yet."** That's expected.
-- After approving + refresh: the Client Home now shows your **active program**.
+- The program your trainer created is now **visible to the client** — no approval step needed.
+- (If you don't see the notification right away, refresh with Ctrl/Cmd + Shift + R and check
+  **Alerts** again.)
 
-> Why approve? A program only becomes active once the client agrees to it. Until then it's
-> waiting — that's normal, not a bug.
+> The client does **not** need to approve the program. As soon as the trainer creates it,
+> it's active for the client.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -158,17 +180,22 @@ and **what you should see**.
 **Log in as:** Trainer → then Client
 
 **Do this:**
-1. As **Trainer** → open **`T3 Client`** → **Schedule Session**.
-2. Pick **today's date**, any time, session type **Video**, duration **45 min**, add a note,
-   and **Save**.
-3. *(Optional)* If it asks for a meeting link, paste a real-looking one like
-   `https://meet.google.com/abc-defg-hij` (a made-up word like "landing" will be ignored on
-   purpose).
-4. Switch to **Client** → look at **Home / upcoming sessions** → open the session.
+1. As **Trainer** → open **`Coral Client`** → **Schedule Session**.
+2. Pick **today's date** and a **time that is later than right now** (e.g. if it's 4 PM, pick
+   6 PM). Choose session type **Video**, duration **45 min**.
+3. *(Optional)* If there's a field for a meeting link, you can paste a real-looking one like
+   `https://meet.google.com/abc-defg-hij`. It's not required — you can leave it empty.
+4. Tap **Schedule Session** to save it.
+5. Switch to **Client** (`9100000152`) → look at **Home / upcoming sessions** → open the session.
 
 **You should see:**
 - The session appears for the Client at the **same date and time** you picked.
-- If you added a real-looking meeting link, the Client sees a **Join** button.
+- If you added a meeting link, the Client sees a **Join** button.
+
+> **Please also try this:** as the Trainer, attempt to schedule a session for **today at a
+> time that has already passed** (e.g. it's 4 PM and you pick 9 AM today). The app should
+> **stop you** with a message asking for a future time. Tell us whether it blocked you or
+> let it through.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -179,15 +206,15 @@ and **what you should see**.
 **Log in as:** Trainer
 
 **Do this:**
-1. As **Trainer** → open **`T3 Client`** → find the session you scheduled **today** →
+1. As **Trainer** → open **`Coral Client`** → find the session you scheduled **today** →
    tap **Complete**.
 
 **You should see:**
 - The session shows as **Completed**.
 
 > If **Complete** looks greyed out: the button only works for sessions dated **today or
-> earlier**, and only once the Client has an **active program** (Test 5). Make sure both are
-> done. If it still won't tap, that's useful feedback — note it.
+> earlier**, and only once the Client has a **program** (Test 5). Make sure both are done.
+> If it still won't tap, that's useful feedback — note it.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -213,8 +240,8 @@ and **what you should see**.
 > **How the Readiness score works (just so you understand the number — you don't calculate it):**
 > It's a 0–100 score built from your 7 daily inputs, weighted like this —
 > sleep hours **20**, sleep quality **10**, mood **15**, energy **15**, pain **20**
-> (more pain = fewer points), mobility **10**, water **10**. A perfect day ≈ 100; a rough day
-> drops into the teens. High pain alone removes a big chunk.
+> (more pain = fewer points), mobility **10**, water **10**. A perfect day is about 100; a rough
+> day drops into the teens. High pain alone removes a big chunk.
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -225,74 +252,118 @@ and **what you should see**.
 **Log in as:** Trainer → then Assessment Team
 
 **Do this:**
-1. As **Trainer** (`9200000103`) → open the **Risk** area.
-2. Find **`T3 Client`** (from the bad-day check-in in Test 8) → open the alert →
+1. As **Trainer** (`9200000152`) → open the **Risk** area.
+2. Find **`Coral Client`** (from the bad-day check-in in Test 8) → open the alert →
    tap **Acknowledge** → then tap **Escalate to Assessment Team** → confirm.
 3. Switch to **Assessment Team** (`9600000001`) → open the **Escalations** area.
 
 **You should see:**
 - As Trainer: your Client's alert appears, marked **high** importance.
-- After escalating: as Assessment Team, the escalation for **`T3 Client`** appears in the
+- After escalating: as Assessment Team, the escalation for **`Coral Client`** appears in the
   **Escalations** list (Open).
 
-> A different trainer should **not** see your client's alert — only the client's own trainer
-> does. (You can't easily test that alone; we'll confirm it on our side.)
-
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
 ---
 
-### TEST 10 — Messaging works across roles
+### TEST 10 — Messaging (the new unified inbox)
 
-**Log in as:** Trainer → Client → Assessment Team → Trainer
+Messaging now works from **one place** for everyone: open **Messages**, tap **New**, and
+**pick who you want to message**. You'll test several directions.
+
+**Log in as:** Client → Trainer → Assessment Team
 
 **Do this:**
-1. As **Trainer** → open **`T3 Client`** → send a message like "Hello from your trainer".
-2. Switch to **Client** → open **Messages** → check the conversation with your trainer.
-3. Now reply from the **Client** side: send "Hi coach, got it".
-4. Switch back to **Trainer** → open the conversation again.
-5. *(Assessment Team channel)* As **Assessment Team** (`9600000001`) → **Messages** → send a
-   message to **`T3 Trainer`**. Then switch to your **Trainer** account and open Messages.
+
+**A) Client → Trainer**
+1. As **Client** (`9100000152`) → **Messages** → tap **New**.
+2. In the picker you should see your trainer (**Coral Trainer**) under "My Trainer(s)" and
+   **Assessment Team** as another option. Pick **Coral Trainer**.
+3. Send a message like "Hello from Coral Client".
+
+**B) Client → Assessment Team**
+4. Back in **Messages** → **New** → pick **Assessment Team** → send "Question for the team".
+
+**C) Trainer → Client (and reply check)**
+5. Switch to **Trainer** (`9200000152`) → **Messages**. You should see the message from
+   **Coral Client**. Open it and **reply** ("Got it, thanks").
+6. The trainer can also start a new one: **New** → pick **Coral Client** or **Assessment
+   Team** → send a message.
+
+**D) Assessment Team → anyone (with search)**
+7. Switch to **Assessment Team** (`9600000001`) → **Messages** → **New**. There's a
+   **search box** — type "Coral" → you should see **Coral Trainer** and **Coral Client** in the
+   results. Pick one and send a message.
 
 **You should see:**
-- Both the Client and the Trainer see the **same conversation** with **both** messages, in order.
-- The Trainer also sees the message from the **Assessment Team**.
+- Each time you pick someone and send, a conversation opens with **their name at the top**
+  (not the word "Conversation").
+- Messages you send appear for **both** people in the same conversation, in order.
+- The Client only sees their **own trainer + Assessment Team** as options (not other random
+  trainers). The Assessment Team search finds **any** trainer or client.
+
+> **Please confirm:** when you tapped "New", did the right people show up for each role?
+> And did your messages show up correctly on the other side?
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
 ---
 
-### TEST 11 — Adherence score (completed vs missed sessions)
+### TEST 11 — "Contact Support" on WhatsApp
+
+**Log in as:** any of your accounts
+
+**Do this:**
+1. Open the **profile menu** (the menu that also has **Log out** — usually the avatar/initials
+   in the top corner).
+2. Tap **Contact Support** (it has a green WhatsApp icon).
+
+**You should see:**
+- It opens **WhatsApp** (app or web) with a chat **already addressed to a support number**
+  and a **pre-filled message** like "Hi WellnessConnect support, I need help...".
+- You should NOT have to type the number yourself — just the message is ready to send.
+
+> You don't need to actually send the WhatsApp message — just confirm it opened correctly
+> and was pre-addressed. Try it from a couple of different roles (Client, Trainer) if you can.
+
+*You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
+
+---
+
+### TEST 12 — Adherence score (completed vs missed sessions)
 
 **Log in as:** Trainer
 
 **Do this:**
-1. As **Trainer** → open **`T3 Client`** → **Schedule Session** and create **a few sessions
-   dated today** (e.g. 3 of them). Save each.
+1. As **Trainer** → open **`Coral Client`** → **Schedule Session** and create **a few sessions
+   dated today** (e.g. 4 of them, each at a time later than now). Save each.
 2. On those sessions, set different outcomes:
    - Mark **2 as Complete**.
    - Mark **1 as No-show**.
-   - Schedule **1 more** and mark it **Cancelled** (client or trainer — either is fine).
-3. Look at the Client's **Adherence score** on the Trainer's client view.
+   - Mark **1 as Cancelled** (client or trainer — either is fine).
+3. On the **Trainer's** view of **`Coral Client`**, look at the **Adherence score**.
 
 **You should see:**
-- An **Adherence score** that reflects sessions kept vs missed. With the example above it
-  should read about **67%**.
+- On the **Trainer's** client view, an **Adherence score** that reflects sessions kept vs
+  missed. With the example above (2 completed + 1 no-show, 1 cancelled ignored) it should be
+  around **67%**. (A different mix gives a different number — that's fine.)
 
 > **How the Adherence score works (just so you understand it):**
-> Adherence = **Completed ÷ (Completed + No-show)**. Cancelled sessions are **ignored**
-> (they don't count for or against). So 2 completed + 1 no-show = 2 ÷ 3 ≈ **67%**.
+> Adherence = **Completed divided by (Completed + No-show)**. Cancelled sessions are **ignored**
+> (they don't count for or against). So 2 completed + 1 no-show = 2 / 3 = about **67%**.
 > If there are no completed/missed sessions yet, it shows **"not enough data"**, not 0%.
 >
-> **Heads-up (not a bug):** the **Client's** own Progress screen shows a *different* adherence
-> number, based on how many days the client logged a workout in their check-ins. So the
-> Trainer view and the Client view can show **different** adherence numbers — that's expected.
+> **Important — two different "adherence" numbers (this is expected, not a bug):**
+> The number above is on the **Trainer's** client view. The **Client's own Progress screen**
+> shows a *different* adherence based on how many days the client logged a workout in their
+> check-ins — so the Client's Progress screen may show **0%** even when the Trainer's view
+> shows 67%. **Don't report that difference as a problem — it's by design.**
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
 ---
 
-### TEST 12 — Weekly reflection saves to the right week
+### TEST 13 — Weekly reflection saves to the right week
 
 **Log in as:** Client
 
@@ -312,17 +383,23 @@ and **what you should see**.
 
 ---
 
-### TEST 13 — Refresh doesn't break anything
+### TEST 14 — Refresh doesn't break anything
 
 **Log in as:** any of your accounts
 
 **Do this:**
 1. While logged in, press **F5** (or refresh) on several different screens — the home screen,
-   a details screen, a list screen.
+   Messages, a details screen, a list screen.
 
 **You should see:**
 - A brief loading spinner, then the screen **reloads normally**.
+- Lists (Messages, clients, sessions) **still show their content** after refresh — nothing
+  goes blank.
 - You should **not** get bounced to the login screen, see a blank page, or get an error.
+
+> **Please note specifically:** after refreshing, did **Messages** and any **profile/health
+> details** screens still load their content, or did anything come up empty? (This helps us
+> confirm a recent behind-the-scenes change.)
 
 *You don't need to check anything yourself — just tell us what you saw. We'll confirm on our end.*
 
@@ -332,7 +409,7 @@ and **what you should see**.
 
 For each test, please tell us:
 
-1. **Test number** (e.g. "Test 6")
+1. **Test number** (e.g. "Test 10")
 2. **What you saw** — did it match the "You should see" part? (Yes / No / Not sure)
 3. **If something was wrong or confusing** — describe it in a sentence, and **attach a
    screenshot** if you can.
@@ -341,16 +418,18 @@ For each test, please tell us:
 A simple format works great:
 
 ```
-Test 1 — OK
+Test 1 — Client showed "under review", Trainer went straight to the dashboard
 Test 2 — OK
-Test 3 — Saw the recommended trainers, looked fine
-Test 4 — OK
-Test 5 — Confusing: I didn't know where to find "approve program"
-Test 6 — Session showed but the time looked 1 hour off (screenshot attached)
+Test 3 — Could see client's health details, cleared fine
+Test 4 — Saw health details on the pending request before accepting; accepted OK
+Test 5 — Found the program under Alerts, opened fine
+Test 6 — Future session worked; it correctly blocked a past time
+Test 10 — New message picker showed the right people; messages appeared on both sides
+Test 11 — Contact Support opened WhatsApp pre-addressed
 ...
 ```
 
 **Reminder:** you don't need to check any numbers or data — just tell us what appeared on
 screen. We'll verify all the details on our side.
 
-**Thank you, Tester 3!** 🙏
+**Thank you, Tester 3 (Coral)!**
